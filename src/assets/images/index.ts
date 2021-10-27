@@ -1,0 +1,1 @@
+export { default as previewImg } from "./preview.png";
