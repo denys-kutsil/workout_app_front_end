@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import { IRootState } from "../../redux/reducers";
-import { Button } from "../../components";
+import { PrimaryButton } from "../../components";
 import { previewImg } from "../../assets/images";
 import { ArrowIcon } from "../../icons";
 
@@ -15,6 +15,15 @@ const MainContainer = styled.div`
   @media (max-width: 600px) {
     width: 90%;
   }
+`;
+
+const ArrowIconWrapper = styled.div`
+	margin-bottom: 24px;
+  &:hover {
+    cursor: pointer;
+    transform: scale(1.02);
+    transition: 0.5s ease transform;
+  };
 `;
 
 const TitleContainer = styled.div`
@@ -73,9 +82,30 @@ const ButtonContainer = styled.div`
   }
 `;
 
+const DataContainer = styled.div`
+	padding: 20px 0;
+	h2 {
+    font-size: 14px;
+		font-family: SF-Pro-Text;
+  }
+	h1 {
+		margin: 5px 0;
+    font-weight: 600;
+    font-size: 24px;
+	}
+	h3 {
+    font-weight: normal;
+    font-size: 14px;
+    font-family: SF-Pro-Text;
+  }
+`;
+
 const WorkoutView = () => {
 	const history = useHistory();
 	const { data } = useSelector((state: IRootState) => state.workouts);
+	const { duration } = useSelector((state: IRootState) => state.status);
+	const minutes = Math.floor(duration / 60);
+	const seconds = duration > 60 ? duration - minutes * 60 : duration;
 
 	const startTracking = () => {
 		history.push('/tracking')
@@ -83,8 +113,15 @@ const WorkoutView = () => {
 
 	return (
 		<MainContainer>
-			<ArrowIcon/>
+			<ArrowIconWrapper onClick={() => history.goBack()}>
+				<ArrowIcon/>
+			</ArrowIconWrapper>
 			<img src={previewImg} alt="*"/>
+			<DataContainer>
+				<h2>Day 1</h2>
+				<h1>Morning Flexibility Routine</h1>
+				<h3>{minutes} min {seconds} sec</h3>
+			</DataContainer>
 			<CategoriesContainer>
 				{data.map(({title, exercises}, idx) => (
 					<CategoryItemContainer key={idx}>
@@ -109,7 +146,7 @@ const WorkoutView = () => {
 				))}
 			</CategoriesContainer>
 			<ButtonContainer>
-				<Button onClick={startTracking}>Start Workout</Button>
+				<PrimaryButton onClick={startTracking}>Start Workout</PrimaryButton>
 			</ButtonContainer>
 		</MainContainer>
 	)

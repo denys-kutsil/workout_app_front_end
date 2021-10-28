@@ -5,26 +5,35 @@ import {
   Switch,
   Route,
 } from "react-router-dom";
-import { WorkoutView, TrackingView } from "./views";
+import styled from "styled-components";
+import { WorkoutView, TrackingView, CompleteView } from "./views";
 import { getWorkoutData } from "./redux/workouts/actions";
-import "./index.scss";
+
+const MainContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: 100%;
+`;
 
 const App = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getWorkoutData());
-  }, []);
+  }, [dispatch]);
 
   return (
-      <div className="mainContainer">
+      <MainContainer>
         <Router>
           <Switch>
             <Route path="/" component={WorkoutView} exact={true}/>
             <Route path="/tracking" component={TrackingView}/>
+            <Route path="/complete" component={CompleteView}/>
           </Switch>
         </Router>
-      </div>
+      </MainContainer>
   );
 }
 
