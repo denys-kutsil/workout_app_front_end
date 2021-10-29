@@ -43,9 +43,10 @@ export const WorkoutItemData = styled.div`
 
 export const CategoriesContainer = styled.div`
   margin-top: 24px;
+	padding-bottom: 86px;
   @media (max-width: 600px) {
-    padding: 0px 16px;
-  }
+    padding: 0 16px 86px 16px;
+  };
 `;
 
 export const WorkoutItem = styled.div`
