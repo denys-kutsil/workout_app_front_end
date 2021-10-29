@@ -1,7 +1,7 @@
-import { all, call, takeEvery, put } from 'redux-saga/effects';
 import { SagaIterator } from "redux-saga";
+import { all, call, takeEvery, put } from 'redux-saga/effects';
 import actions, { setWorkoutData } from './actions';
-import { getWorkoutDataService } from "./service";
+import getWorkoutDataService  from "./service";
 
 function* getWorkoutData(): SagaIterator {
 		const { data: { data } }  = yield call(getWorkoutDataService);

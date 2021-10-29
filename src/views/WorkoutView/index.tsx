@@ -1,115 +1,28 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import styled from "styled-components";
 import { IRootState } from "../../redux/reducers";
 import { PrimaryButton } from "../../components";
 import { previewImg } from "../../assets/images";
 import { ArrowIcon } from "../../icons";
-
-const MainContainer = styled.div`
-  width: 50%;
-  display: flex;
-  flex-direction: column;
-  padding-top: 70px;
-  @media (max-width: 600px) {
-    width: 90%;
-  }
-`;
-
-const ArrowIconWrapper = styled.div`
-	margin-bottom: 24px;
-  &:hover {
-    cursor: pointer;
-    transform: scale(1.02);
-    transition: 0.5s ease transform;
-  };
-`;
-
-const TitleContainer = styled.div`
-  font-size: 16px;
-  font-weight: 600;
-  font-family: SF-Pro-Text;
-	margin-bottom: 20px;
-`;
-
-const CategoryItemContainer = styled.div`
-  padding: 8px 0 24px 0;
-  border-top: 1px solid #EEEEEE;
-`;
-
-const WorkoutItemData = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-  margin-left: 15px;
-`;
-
-const CategoriesContainer = styled.div`
-  margin-top: 24px;
-`;
-
-const WorkoutItem = styled.div`
-  display: flex;
-  align-items: center;
-  margin-bottom: 10px;
-  h1 {
-    font-size: 18px;
-  };
-  h2 {
-    font-size: 14px;
-    font-family: SF-Pro-Text;
-    margin-top: 5px;
-  };
-  img {
-    height: 64px;
-    width: 64px;
-    border-radius: 12px;
-  }
-`;
-
-const ButtonContainer = styled.div`
-  position: fixed;
-  bottom: 30px;
-  width: 50%;
-  &:hover {
-    cursor: pointer;
-    transform: scale(1.05);
-    transition: 0.5s ease transform;
-  };
-  @media (max-width: 600px) {
-    width: 90%;
-  }
-`;
-
-const DataContainer = styled.div`
-	padding: 20px 0;
-	h2 {
-    font-size: 14px;
-		font-family: SF-Pro-Text;
-  }
-	h1 {
-		margin: 5px 0;
-    font-weight: 600;
-    font-size: 24px;
-	}
-	h3 {
-    font-weight: normal;
-    font-size: 14px;
-    font-family: SF-Pro-Text;
-  }
-`;
+import {
+	MainContainer,
+	ArrowIconWrapper,
+	DataContainer,
+	CategoriesContainer,
+	CategoryItemContainer,
+	TitleContainer,
+	WorkoutItem,
+	WorkoutItemData,
+	ButtonContainer
+} from "./styled-components";
 
 const WorkoutView = () => {
 	const history = useHistory();
 	const { data } = useSelector((state: IRootState) => state.workouts);
-	const { duration } = useSelector((state: IRootState) => state.status);
-	const minutes = Math.floor(duration / 60);
-	const seconds = duration > 60 ? duration - minutes * 60 : duration;
-
-	const startTracking = () => {
-		history.push('/tracking')
-	};
+	const { duration : statusDuration} = useSelector((state: IRootState) => state.status);
+	const minutes = Math.floor(statusDuration / 60);
+	const seconds = statusDuration > 60 ? statusDuration - minutes * 60 : statusDuration;
 
 	return (
 		<MainContainer>
@@ -146,7 +59,11 @@ const WorkoutView = () => {
 				))}
 			</CategoriesContainer>
 			<ButtonContainer>
-				<PrimaryButton onClick={startTracking}>Start Workout</PrimaryButton>
+				<PrimaryButton
+					onClick={() => history.push('/tracking')}
+				>
+					Start Workout
+				</PrimaryButton>
 			</ButtonContainer>
 		</MainContainer>
 	)

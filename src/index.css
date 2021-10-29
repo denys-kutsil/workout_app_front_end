@@ -1,0 +1,19 @@
+@font-face {
+    font-family: 'SF-Pro-Text';
+    src: url('./assets/fonts/SF-Pro-Text.ttf');
+}
+
+@font-face {
+    font-family: 'SF-Pro-Display';
+    src: url('./assets/fonts/SF-Pro-Display.ttf');
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+
+body {
+    font-family: SF-Pro-Display;
+}

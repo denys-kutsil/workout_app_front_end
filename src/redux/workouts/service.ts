@@ -1,5 +1,8 @@
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 
-export const getWorkoutDataService = (): any => {
-	return axios.get('https://rnd.kilohealthservices.com/api/quizzes/workouts?api_token=4bfcebd0-0216-4572-bdb7-939e9600b9b2\n')
-}
+const token = '4bfcebd0-0216-4572-bdb7-939e9600b9b2';
+const api = 'https://rnd.kilohealthservices.com';
+
+const workoutService = (): Promise<AxiosResponse> => axios.get(`${api}/api/quizzes/workouts?api_token=${token}`);
+
+export default workoutService;

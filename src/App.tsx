@@ -8,6 +8,7 @@ import {
 import styled from "styled-components";
 import { WorkoutView, TrackingView, CompleteView } from "./views";
 import { getWorkoutData } from "./redux/workouts/actions";
+import { BackgroundDecorationBottom, BackgroundDecorationTop } from "./icons";
 
 const MainContainer = styled.div`
   display: flex;
@@ -26,6 +27,8 @@ const App = () => {
 
   return (
       <MainContainer>
+        <BackgroundDecorationTop/>
+        <BackgroundDecorationBottom/>
         <Router>
           <Switch>
             <Route path="/" component={WorkoutView} exact={true}/>

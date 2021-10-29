@@ -1,134 +1,29 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { buildStyles, CircularProgressbar } from 'react-circular-progressbar';
-import styled from "styled-components";
-import 'react-circular-progressbar/dist/styles.css';
+import { buildStyles, CircularProgressbar } from "react-circular-progressbar";
+import "react-circular-progressbar/dist/styles.css";
 import { IRootState } from "../../redux/reducers";
 import { setDuration } from "../../redux/status/actions";
+import { ExerciseType } from "../../redux/workouts/types";
 import {
 	PauseTrackingButton,
 	PlayNextIcon,
 	PlayPrevIcon,
 	PlayTrackingButton
 } from "../../icons";
-
-const MainContainer = styled.div`
-	width: 40%;
-  display: flex;
-  flex-direction: column;
-	justify-content: space-between;
-  @media (max-width: 600px) {
-    width: 100%;
-  }
-`;
-
-const ProgressContainer = styled.div`
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-  @media (max-width: 600px) {
-    padding: 0 16px;
-  }
-`;
-
-const PauseButtonContainer = styled.div`
-  &:hover {
-    cursor: pointer;
-    transform: scale(1.05);
-    transition: 0.5s ease transform;
-  };
-`;
-
-const FooterContainer = styled.div`
-	border-top: 8px solid #EEEEEE;
-	width: 100%;
-	position: fixed;
-	bottom: 0;
-	left: 0;
-	display: flex;
-	justify-content: center;
-	align-content: center;
-	padding: 5px 0;
-	background: white;
-`;
-
-const CircularProgressbarContainer = styled.div`
-	width: 128px;
-	height: 128px;
-`;
-
-const SwitchExerciseButton = styled.button`
-  visibility: ${(props: {visible : boolean} ) => (props.visible ? 'visible' : `hidden`)};
-  width: 80px;
-	height: 50px;
-  border: 2px solid #AA00FF;
-  border-radius: 8px;
-	background: transparent;
-  &:hover {
-    cursor: pointer;
-    transform: scale(1.05);
-    transition: 0.5s ease transform;
-  };
-`;
-
-const ImagePreview = styled.div`
-  background-image: ${(props: {image : string} ) => `url(${props.image})`};
-  width: 100%;
-  height: 450px;
-  border-radius: 8px;
-	background-size: cover;
-	margin-top: 32px;
-`;
-
-const PauseContainer = styled.div`
-	width: 100%;
-	height: 100%;
-  background: rgb(33,33,33, 0.6);	
-  border-radius: 8px;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	h1 {
-		font-family: SF-Pro-Display;
-		color: white;
-    font-weight: 600;
-    font-size: 24px;
-	};
-	h2 {
-    font-family: SF-Pro-Text;
-    font-weight: normal;
-    font-size: 16px;
-		color: white;
-		margin: 8px 0 32px 0;
-	}
-`;
-
-const LeaveButton = styled.button`
-  border: 2px solid #EEEEEE;
-	background: transparent;
-  color: #EEEEEE;
-  border-radius: 8px;
-	width: 250px;
-	height: 48px;
-  font-weight: 600;
-  font-size: 16px;
-  &:hover {
-    cursor: pointer;
-    transform: scale(1.05);
-    transition: 0.5s ease transform;
-  };
-`;
-
-const TitleContainer = styled.div`
-	display: flex;
-	justify-content: center;
-	align-items: center;
-  font-weight: 600;
-  font-size: 24px;
-	padding: 72px 0 32px 0;
-`;
+import {
+	MainContainer,
+	TitleContainer,
+	ProgressContainer,
+	SwitchExerciseButton,
+	CircularProgressbarContainer,
+	ImagePreview,
+	PauseContainer,
+	LeaveButton,
+	FooterContainer,
+	PauseButtonContainer
+} from "./styled-components";
 
 const TrackingView = () => {
 	const dispatch = useDispatch();
@@ -136,9 +31,9 @@ const TrackingView = () => {
 	const { data } = useSelector((state: IRootState) => state.workouts);
 	const [isPause, setPause] = useState(false);
 	const [isTrackPlaying, setTrackPlaying] = useState(false);
-	const [activeExerciseIndex, setActiveExerciseIndex] = useState(0);
+	const [exerciseIndex, setExerciseIndex] = useState(0);
 	const [activeDuration, setActiveDuration] = useState(0);
-	const [activeExercise, setActiveExercise] = useState<any>({});
+	const [activeExercise, setActiveExercise] = useState<ExerciseType| null>();
 	const [allTime, setAllTime] = useState(5);
 	const interval = useRef<any>(null);
 
@@ -148,22 +43,23 @@ const TrackingView = () => {
 				, []), [data]);
 
 	const startTracking = (isPreparation = false) => {
+		const finishTracking = () => {
+			clearInterval(interval.current)
+			if (isPreparation) {
+				setTrackPlaying(true);
+			} else {
+				dispatch(setDuration(activeExercise?.duration ?? 0));
+				if (exerciseIndex === exercisesList.length - 1) {
+					history.push('/complete');
+				}
+				setExerciseIndex(index => index + 1)
+			}
+		};
 
 		const setDurationFunc = (duration: number) => {
-			if (duration - 1 <= 0) {
-				clearInterval(interval.current)
-				if (isPreparation) {
-					setTrackPlaying(true);
-				} else {
-					dispatch(setDuration(activeExercise.duration));
-					if (activeExerciseIndex === exercisesList.length - 1) {
-						history.push('/complete');
-					}
-					setActiveExerciseIndex(index => index + 1)
-				}
-			}
+			if (duration - 1 <= 0) finishTracking();
 			return duration - 1;
-		}
+		};
 
 		interval.current = setInterval(() => {
 			setActiveDuration(setDurationFunc)
@@ -171,48 +67,49 @@ const TrackingView = () => {
 	};
 
 	const changeTime = (isPreparation: boolean = false) => {
-		const duration = isPreparation ? 5 : activeExercise.duration;
+		const duration = isPreparation ? 5 : activeExercise?.duration ?? 0;
 		setAllTime(duration)
 		setActiveDuration(duration)
-	}
-
-	useEffect(() => {
-		if (isTrackPlaying) {
-			changeTime()
-			startTracking()
-		}
-	}, [isTrackPlaying])
-
-	useEffect(() => {
-		if (!exercisesList.length) return;
-		setActiveExercise(exercisesList[activeExerciseIndex]);
-		if (isTrackPlaying) setTrackPlaying(false);
-
-		changeTime(true);
-		startTracking(true);
-	}, [activeExerciseIndex, exercisesList]);
-
-	useEffect(() => {
-		if (!isTrackPlaying) return;
-		clearInterval(interval.current)
-		if (!isPause) startTracking()
-	}, [isPause])
-
+	};
 
 	const changeExercise = (next: boolean) => {
 		clearInterval(interval.current);
 		setTrackPlaying(false);
 		if (isPause) setPause(false);
-		dispatch(setDuration(allTime - activeDuration));
-		setActiveExerciseIndex(activeExerciseIndex + (next ? 1 : -1));
+		if (isTrackPlaying) dispatch(setDuration(allTime - activeDuration));
+		setExerciseIndex(exerciseIndex + (next ? 1 : -1));
 	};
 
 	const onLeaveButtonClick = () => {
 		dispatch(setDuration(allTime - activeDuration));
 		history.push('/complete');
-	}
+	};
+
+	useEffect(() => {
+		if (exercisesList.length) {
+			setActiveExercise(exercisesList[exerciseIndex]);
+			if (isTrackPlaying) setTrackPlaying(false);
+			changeTime(true);
+			startTracking(true);
+		}
+	}, [exerciseIndex, exercisesList]);
+
+	useEffect(() => {
+		if (isTrackPlaying) {
+			changeTime();
+			startTracking();
+		}
+	}, [isTrackPlaying]);
+
+	useEffect(() => {
+		if (isTrackPlaying) {
+			clearInterval(interval.current);
+			if (!isPause) startTracking();
+		}
+	}, [isPause]);
 
 	const percentage = activeDuration * 100 / allTime;
+	const activeColor = isTrackPlaying ? "rgba(255, 64, 129, 1)" : "rgba(29, 233, 182, 1)";
 
 	return (
 		<MainContainer>
@@ -221,7 +118,7 @@ const TrackingView = () => {
 			</TitleContainer>
 			<ProgressContainer>
 				<SwitchExerciseButton
-					visible={activeExerciseIndex !== 0}
+					visible={exerciseIndex !== 0}
 					onClick={() => changeExercise(false)}
 				>
 					<PlayPrevIcon/>
@@ -231,21 +128,22 @@ const TrackingView = () => {
 						value={percentage}
 						text={`${activeDuration}`}
 						counterClockwise
-						styles={buildStyles({
-							pathColor: isTrackPlaying ? "rgba(255, 64, 129, 1)" : "rgba(29, 233, 182, 1)",
-							textColor: isTrackPlaying ? "rgba(255, 64, 129, 1)" :"rgba(29, 233, 182, 1)",
-							trailColor: "#EEEEEE"
+						styles={
+							buildStyles({
+								pathColor: activeColor,
+								textColor: activeColor,
+								trailColor: "#EEEEEE"
 						})}
 					/>
 				</CircularProgressbarContainer>
 					<SwitchExerciseButton
-						visible={activeExerciseIndex !== exercisesList.length - 1}
+						visible={exerciseIndex !== exercisesList.length - 1}
 						onClick={() => changeExercise(true)}
 					>
 						<PlayNextIcon/>
 					</SwitchExerciseButton>
 			</ProgressContainer>
-			<ImagePreview image={activeExercise?.photo}>
+			<ImagePreview image={activeExercise?.photo ?? ''}>
 				{isPause && (
 					<PauseContainer>
 						<h1>Workout paused</h1>

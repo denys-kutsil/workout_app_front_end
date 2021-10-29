@@ -7,7 +7,13 @@ export interface ExerciseType {
 	video: string
 }
 
+export interface MuscleGroupType {
+	name: string
+	photo: string
+}
+
 export interface WorkoutDataType {
 	title?: string,
-	exercises: ExerciseType[]
+	exercises: ExerciseType[],
+	muscle_group: MuscleGroupType
 }

@@ -1,53 +1,15 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import styled from "styled-components";
 import { CheckIcon } from "../../icons";
 import { PrimaryButton } from "../../components";
 import { IRootState } from "../../redux/reducers";
-
-const MainContainer = styled.div`
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	width: 50%;
-	height: 100vh;
-	text-align: center;
-  @media (max-width: 600px) {
-    width: 90%;
-  }
-	h1 {
-		margin: 20px 0 16px 0;
-    font-weight: 600;
-    font-size: 40px;
-	}
-	h2 {
-    font-family: SF-Pro-Text;
-    font-weight: normal;
-    font-size: 20px;
-    opacity: 0.6;
-		margin-bottom: 32px;
-  }
-`;
-
-const DurationContainer = styled.div`
-  font-weight: 600;
-  font-size: 40px;
-	margin-bottom: 35px;
-`;
-
-const TimeContainer = styled.div`
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	margin: 0 10px;
-`;
-
-const TimeContainerWrapper = styled.div`
-	display: flex;
-	justify-content: space-evenly;
-`;
+import {
+	MainContainer,
+	TimeContainerWrapper,
+	TimeContainer,
+	DurationContainer
+} from "./styled-components";
 
 const CompleteView = () => {
 	const history = useHistory();
