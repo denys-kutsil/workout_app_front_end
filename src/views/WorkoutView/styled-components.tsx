@@ -102,3 +102,7 @@ export const DataContainer = styled.div`
     padding: 20px 16px;
   }
 `;
+
+export const ImagePreview = styled.img`
+	object-fit: contain;
+`;

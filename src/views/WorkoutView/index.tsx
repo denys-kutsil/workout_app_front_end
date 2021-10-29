@@ -14,7 +14,8 @@ import {
 	TitleContainer,
 	WorkoutItem,
 	WorkoutItemData,
-	ButtonContainer
+	ButtonContainer,
+	ImagePreview
 } from "./styled-components";
 
 const WorkoutView = () => {
@@ -29,7 +30,7 @@ const WorkoutView = () => {
 			<ArrowIconWrapper onClick={() => history.goBack()}>
 				<ArrowIcon/>
 			</ArrowIconWrapper>
-			<img src={previewImg} alt="*"/>
+			<ImagePreview src={previewImg} alt="*"/>
 			<DataContainer>
 				<h2>Day 1</h2>
 				<h1>Morning Flexibility Routine</h1>
