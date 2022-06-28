@@ -3,13 +3,13 @@ import workouts, { WorkoutsStateType } from "./workouts/reducers";
 import status, { StatusStateType } from "./status/reducers";
 
 export interface IRootState {
-	workouts: WorkoutsStateType,
-	status: StatusStateType
+  workouts: WorkoutsStateType;
+  status: StatusStateType;
 }
 
 const rootReducer = combineReducers({
-	workouts,
-	status
+  workouts,
+  status,
 });
 
 export default rootReducer;

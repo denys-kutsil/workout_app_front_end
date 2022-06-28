@@ -1,15 +1,15 @@
 import { SagaIterator } from "redux-saga";
-import { all, call, takeEvery, put } from 'redux-saga/effects';
-import actions, { setWorkoutData } from './actions';
-import getWorkoutDataService  from "./service";
+import { all, call, takeEvery, put } from "redux-saga/effects";
+import actions, { setWorkoutData } from "./actions";
+import getWorkoutDataService from "./service";
 
 function* getWorkoutData(): SagaIterator {
-		const { data: { data } }  = yield call(getWorkoutDataService);
-		yield put(setWorkoutData(data.questions))
+  const {
+    data: { data },
+  } = yield call(getWorkoutDataService);
+  yield put(setWorkoutData(data.questions));
 }
 
 export default function* rootSaga() {
-	yield all([
-		takeEvery(actions.GET_WORKOUT_DATA, getWorkoutData),
-	])
+  yield all([takeEvery(actions.GET_WORKOUT_DATA, getWorkoutData)]);
 }
