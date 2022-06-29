@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const MainContainer = styled.div`
   display: flex;
@@ -11,6 +11,7 @@ export const MainContainer = styled.div`
   @media (max-width: 600px) {
     width: 90%;
   }
+
   h1 {
     margin: 20px 0 16px 0;
     font-weight: 600;

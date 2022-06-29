@@ -18,6 +18,7 @@ import useTrackingView from './useTrackingView';
 
 const TrackingView = () => {
   const {
+    title,
     isPause,
     exercisesList,
     isTrackPlaying,
@@ -33,9 +34,9 @@ const TrackingView = () => {
 
   return (
     <MainContainer>
-      <TitleContainer>{isTrackPlaying ? activeExercise?.title : 'Get Ready'}</TitleContainer>
+      <TitleContainer>{title}</TitleContainer>
       <ProgressContainer>
-        <SwitchExerciseButton visible={exerciseIndex !== 0} onClick={() => changeExercise(false)}>
+        <SwitchExerciseButton visible={exerciseIndex !== 0} onClick={changeExercise(false)}>
           <PlayPrevIcon />
         </SwitchExerciseButton>
         <CircularProgressbarContainer>
@@ -52,7 +53,7 @@ const TrackingView = () => {
         </CircularProgressbarContainer>
         <SwitchExerciseButton
           visible={exerciseIndex !== exercisesList.length - 1}
-          onClick={() => changeExercise(true)}
+          onClick={changeExercise(true)}
         >
           <PlayNextIcon />
         </SwitchExerciseButton>

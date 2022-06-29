@@ -10,7 +10,7 @@ import {
 import useCompleteView from './useCompleteView';
 
 const CompleteView = () => {
-  const { minutes, seconds, history } = useCompleteView();
+  const { minutes, seconds, saveAndContinue } = useCompleteView();
 
   return (
     <MainContainer>
@@ -27,7 +27,7 @@ const CompleteView = () => {
           <DurationContainer>{seconds}</DurationContainer>
         </TimeContainer>
       </TimeContainerWrapper>
-      <PrimaryButton onClick={() => history.push('/')}>Save & Continue</PrimaryButton>
+      <PrimaryButton onClick={saveAndContinue}>Save & Continue</PrimaryButton>
     </MainContainer>
   );
 };

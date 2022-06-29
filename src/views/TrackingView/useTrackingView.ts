@@ -1,14 +1,14 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { IRootState } from '@/redux/reducers';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { ExerciseType } from '@/redux/workouts/types';
 import { setDuration } from '@/redux/status/actions';
+import { workoutDataSelector } from '@/redux/workouts/selectors';
 
 const useTrackingView = () => {
   const dispatch = useDispatch();
   const history = useHistory();
-  const { data } = useSelector((state: IRootState) => state.workouts);
+  const workoutData = useSelector(workoutDataSelector);
   const [isPause, setPause] = useState(false);
   const [isTrackPlaying, setTrackPlaying] = useState(false);
   const [exerciseIndex, setExerciseIndex] = useState(0);
@@ -18,41 +18,48 @@ const useTrackingView = () => {
   const interval = useRef<any>(null);
 
   const exercisesList = useMemo(
-    () => data.map(({ exercises }) => exercises).reduce((prev, next) => [...prev, ...next], []),
-    [data],
+    () =>
+      workoutData.map(({ exercises }) => exercises).reduce((prev, next) => [...prev, ...next], []),
+    [workoutData],
   );
 
-  const startTracking = (isPreparation = false) => {
-    const finishTracking = () => {
-      clearInterval(interval.current);
-      if (isPreparation) {
-        setTrackPlaying(true);
-      } else {
-        dispatch(setDuration(activeExercise?.duration ?? 0));
-        if (exerciseIndex === exercisesList.length - 1) {
-          history.push('/complete');
+  const startTracking = useCallback(
+    (isPreparation = false) => {
+      const finishTracking = () => {
+        clearInterval(interval.current);
+        if (isPreparation) {
+          setTrackPlaying(true);
+        } else {
+          dispatch(setDuration(activeExercise?.duration ?? 0));
+          if (exerciseIndex === exercisesList.length - 1) {
+            history.push('/complete');
+          }
+          setExerciseIndex((index) => index + 1);
         }
-        setExerciseIndex((index) => index + 1);
-      }
-    };
+      };
 
-    const setDurationFunc = (duration: number) => {
-      if (duration - 1 <= 0) finishTracking();
-      return duration - 1;
-    };
+      const setDurationFunc = (duration: number) => {
+        if (duration - 1 <= 0) finishTracking();
+        return duration - 1;
+      };
 
-    interval.current = setInterval(() => {
-      setActiveDuration(setDurationFunc);
-    }, 1000);
-  };
+      interval.current = setInterval(() => {
+        setActiveDuration(setDurationFunc);
+      }, 1000);
+    },
+    [activeExercise, exercisesList, exerciseIndex, dispatch, history],
+  );
 
-  const changeTime = (isPreparation = false) => {
-    const duration = isPreparation ? 5 : activeExercise?.duration ?? 0;
-    setAllTime(duration);
-    setActiveDuration(duration);
-  };
+  const changeTime = useCallback(
+    (isPreparation = false) => {
+      const duration = isPreparation ? 5 : activeExercise?.duration ?? 0;
+      setAllTime(duration);
+      setActiveDuration(duration);
+    },
+    [activeExercise],
+  );
 
-  const changeExercise = (next: boolean) => {
+  const changeExercise = (next: boolean) => () => {
     clearInterval(interval.current);
     setTrackPlaying(false);
     if (isPause) setPause(false);
@@ -90,7 +97,10 @@ const useTrackingView = () => {
 
   const percentage = (activeDuration * 100) / allTime;
   const activeColor = isTrackPlaying ? 'rgba(255, 64, 129, 1)' : 'rgba(29, 233, 182, 1)';
+  const title = isTrackPlaying ? activeExercise?.title : 'Get Ready';
+
   return {
+    title,
     isPause,
     exercisesList,
     isTrackPlaying,
