@@ -1,10 +1,9 @@
-import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import styled from "styled-components";
-import { WorkoutView, TrackingView, CompleteView } from "./views";
-import { getWorkoutData } from "./redux/workouts/actions";
-import { BackgroundDecorationBottom, BackgroundDecorationTop } from "./icons";
+import React from 'react';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import styled from 'styled-components';
+import { WorkoutView, TrackingView, CompleteView } from '@/views';
+import { BackgroundDecorationBottom, BackgroundDecorationTop } from '@/icons';
+import useApp from '@/views/App/useApp';
 
 const MainContainer = styled.div`
   display: flex;
@@ -15,11 +14,7 @@ const MainContainer = styled.div`
 `;
 
 const App = () => {
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(getWorkoutData());
-  }, [dispatch]);
+  useApp();
 
   return (
     <MainContainer>
