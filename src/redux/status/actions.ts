@@ -1,5 +1,5 @@
 const actions = {
-  SET_DURATION: "status/SET_DURATION",
+  SET_DURATION: 'status/SET_DURATION',
 };
 
 export const setDuration = (duration: number) => {

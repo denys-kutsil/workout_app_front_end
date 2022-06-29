@@ -18,14 +18,14 @@ import {
 import useWorkoutView from './useWorkoutView';
 
 const WorkoutView = () => {
-  const { seconds, history, minutes, data } = useWorkoutView();
+  const { seconds, minutes, workoutData, goBack, startWorkout } = useWorkoutView();
 
   return (
     <MainContainer>
-      <ArrowIconWrapper onClick={() => history.goBack()}>
+      <ArrowIconWrapper onClick={goBack}>
         <ArrowIcon />
       </ArrowIconWrapper>
-      <ImagePreview src={previewImg} alt="*" />
+      <ImagePreview src={previewImg} alt="preview-img" />
       <DataContainer>
         <h2>Day 1</h2>
         <h1>Morning Flexibility Routine</h1>
@@ -34,13 +34,13 @@ const WorkoutView = () => {
         </h3>
       </DataContainer>
       <CategoriesContainer>
-        {data.map(({ title, exercises }, idx) => (
+        {workoutData.map(({ title, exercises }, idx) => (
           <CategoryItemContainer key={idx}>
             <TitleContainer>{title}</TitleContainer>
             <>
               {exercises.map(({ title, photo, duration, id }) => (
                 <WorkoutItem key={id}>
-                  <img src={photo} alt="*" />
+                  <img src={photo} alt="photo" />
                   <WorkoutItemData>
                     <h1>{title}</h1>
                     <h2>{duration} sec</h2>
@@ -52,7 +52,7 @@ const WorkoutView = () => {
         ))}
       </CategoriesContainer>
       <ButtonContainer>
-        <PrimaryButton onClick={() => history.push('/tracking')}>Start Workout</PrimaryButton>
+        <PrimaryButton onClick={startWorkout}>Start Workout</PrimaryButton>
       </ButtonContainer>
     </MainContainer>
   );

@@ -1,16 +1,21 @@
 import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { IRootState } from '@/redux/reducers';
+import { statusDurationSelector } from '@/redux/status/selectors';
 
 const useCompleteView = () => {
   const history = useHistory();
-  const { duration } = useSelector((state: IRootState) => state.status);
-  const minutes = Math.floor(duration / 60);
-  const seconds = duration > 60 ? duration - minutes * 60 : duration;
+  const statusDuration = useSelector(statusDurationSelector);
+
+  const minutes = Math.floor(statusDuration / 60);
+  const seconds = statusDuration > 60 ? statusDuration - minutes * 60 : statusDuration;
+
+  const saveAndContinue = () => {
+    history.push('/');
+  };
   return {
     minutes,
     seconds,
-    history,
+    saveAndContinue,
   };
 };
 
