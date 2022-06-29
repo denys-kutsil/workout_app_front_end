@@ -1,10 +1,7 @@
-import React from "react";
-import { useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import { IRootState } from "@/redux/reducers";
-import { PrimaryButton } from "@/components";
-import { previewImg } from "@/assets/images";
-import { ArrowIcon } from "@/icons";
+import React from 'react';
+import { PrimaryButton } from '@/components';
+import { previewImg } from '@/assets/images';
+import { ArrowIcon } from '@/icons';
 
 import {
   MainContainer,
@@ -17,17 +14,11 @@ import {
   WorkoutItemData,
   ButtonContainer,
   ImagePreview,
-} from "./styled-components";
+} from './styled-components';
+import useWorkoutView from './useWorkoutView';
 
 const WorkoutView = () => {
-  const history = useHistory();
-  const { data } = useSelector((state: IRootState) => state.workouts);
-  const { duration: statusDuration } = useSelector(
-    (state: IRootState) => state.status
-  );
-  const minutes = Math.floor(statusDuration / 60);
-  const seconds =
-    statusDuration > 60 ? statusDuration - minutes * 60 : statusDuration;
+  const { seconds, history, minutes, data } = useWorkoutView();
 
   return (
     <MainContainer>
@@ -61,9 +52,7 @@ const WorkoutView = () => {
         ))}
       </CategoriesContainer>
       <ButtonContainer>
-        <PrimaryButton onClick={() => history.push("/tracking")}>
-          Start Workout
-        </PrimaryButton>
+        <PrimaryButton onClick={() => history.push('/tracking')}>Start Workout</PrimaryButton>
       </ButtonContainer>
     </MainContainer>
   );
