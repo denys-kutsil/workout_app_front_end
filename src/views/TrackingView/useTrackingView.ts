@@ -1,20 +1,18 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { ExerciseType } from '@/redux/workouts/types';
 import { setDuration } from '@/redux/status/actions';
-import { workoutDataSelector } from '@/redux/workouts/selectors';
+import { workoutsSelector } from '@/redux/workouts/selectors';
 import { TrackerStatus } from '@/constants';
 import { getTrackerStatus } from '@/views/TrackingView/constants';
+import { selectNextExercise, selectPrevExercise } from '@/redux/workouts/actions';
 
 const useTrackingView = () => {
   const dispatch = useDispatch();
   const history = useHistory();
-  const workoutData = useSelector(workoutDataSelector);
+  const { exercises, active, activeIndex } = useSelector(workoutsSelector);
   const [trackerStatus, setTrackerStatus] = useState<TrackerStatus>(TrackerStatus.Preparation);
-  const [exerciseIndex, setExerciseIndex] = useState(0);
-  const [activeDuration, setActiveDuration] = useState(0);
-  const [activeExercise, setActiveExercise] = useState<ExerciseType | null>(null);
+  const [activeDuration, setActiveDuration] = useState(5);
   const [allTime, setAllTime] = useState(5);
   const interval = useRef<any>(null);
 
@@ -23,23 +21,17 @@ const useTrackingView = () => {
     [trackerStatus],
   );
 
-  const exercisesList = useMemo(
-    () =>
-      workoutData.map(({ exercises }) => exercises).reduce((prev, next) => [...prev, ...next], []),
-    [workoutData],
-  );
-
   const startTracking = () => {
     const finishTracking = () => {
       clearInterval(interval.current);
-      if (trackerStatus === TrackerStatus.Preparation) {
+      if (isPreparation) {
         setTrackerStatus(TrackerStatus.Playing);
       } else {
-        dispatch(setDuration(activeExercise?.duration ?? 0));
-        if (exerciseIndex === exercisesList.length - 1) {
+        dispatch(setDuration(active?.duration ?? 0));
+        if (activeIndex === exercises.length - 1) {
           history.push('/complete');
         }
-        setExerciseIndex((index) => index + 1);
+        changeExercise(true)();
       }
     };
 
@@ -48,13 +40,8 @@ const useTrackingView = () => {
       return duration - 1;
     };
 
-    const changeTime = () => {
-      const duration = isPreparation ? 5 : activeExercise?.duration ?? 0;
-      setAllTime(duration);
-      setActiveDuration(duration);
-    };
-
-    changeTime();
+    const duration = isPreparation ? 5 : activeDuration ? activeDuration : active?.duration ?? 0;
+    setActiveDuration(duration);
 
     interval.current = setInterval(() => {
       setActiveDuration(setDurationFunc);
@@ -64,7 +51,12 @@ const useTrackingView = () => {
   const changeExercise = (next: boolean) => () => {
     clearInterval(interval.current);
     dispatch(setDuration(allTime - activeDuration));
-    setExerciseIndex(exerciseIndex + (next ? 1 : -1));
+    if (next) {
+      dispatch(selectNextExercise());
+    } else {
+      dispatch(selectPrevExercise());
+    }
+    setTrackerStatus(TrackerStatus.Preparation);
   };
 
   const onLeaveButtonClick = () => {
@@ -73,77 +65,36 @@ const useTrackingView = () => {
   };
 
   useEffect(() => {
-    if (!exercisesList.length) return;
+    if (!exercises.length) return;
 
-    if (!activeExercise) {
-      setActiveExercise(exercisesList[exerciseIndex]);
-    }
-
-    if (isPlaying || isPreparation) {
-      startTracking();
-    } else if (isPaused) {
+    if (isPaused) {
       clearInterval(interval.current);
+    } else {
+      setAllTime(isPlaying ? active?.duration ?? 20 : 5);
+      startTracking();
     }
-  }, [isPlaying, isPaused, isPreparation, exercisesList.length]);
+  }, [isPlaying, isPaused, active, exercises.length]);
 
   const togglePauseStatus = () => {
     setTrackerStatus(isPaused ? TrackerStatus.Playing : TrackerStatus.Paused);
   };
 
-  // useEffect(() => {
-  //   if (exercisesList.length) {
-  //     setActiveExercise(exercisesList[exerciseIndex]);
-  //     if (isTrackPlaying) setTrackPlaying(false);
-  //     changeTime(true);
-  //     startTracking(true);
-  //   }
-  // }, [exerciseIndex, exercisesList]);
-
-  // useEffect(() => {
-  //   if (isTrackPlaying) {
-  //     changeTime();
-  //     startTracking();
-  //   }
-  // }, [isTrackPlaying]);
-  //
-  // useEffect(() => {
-  //   if (isTrackPlaying) {
-  //     clearInterval(interval.current);
-  //     if (!isPause) startTracking();
-  //   }
-  // }, [isPause]);
-
-  ///////new functional
-
-  // useEffect(() => {
-  //   const isPause = trackerStatus === TrackerStatus.Paused;
-  //   const isPlaying = trackerStatus === TrackerStatus.Playing;
-  //   if (isPlaying) {
-  //     changeTime();
-  //     startTracking();
-  //   }
-  //   if (isPlaying) {
-  //     clearInterval(interval.current);
-  //     if (!isPause) startTracking();
-  //   }
-  // }, [trackerStatus]);
-
   const percentage = (activeDuration * 100) / allTime;
   const activeColor = isPlaying ? 'rgba(255, 64, 129, 1)' : 'rgba(29, 233, 182, 1)';
-  const title = isPlaying ? activeExercise?.title : 'Get Ready';
+  const title = isPlaying ? active?.title : 'Get Ready';
 
   return {
+    activeIndex,
     isPlaying,
     isPaused,
     isPreparation,
     trackerStatus,
     title,
-    exercisesList,
+    exercises,
+    active,
     percentage,
     activeDuration,
     activeColor,
-    activeExercise,
-    exerciseIndex,
     changeExercise,
     onLeaveButtonClick,
     togglePauseStatus,

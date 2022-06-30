@@ -1,19 +1,54 @@
 import { AnyAction } from 'redux';
 import actions from './actions';
-import { WorkoutDataType } from './types';
+import { ExerciseType, WorkoutDataType } from './types';
 
 export interface WorkoutsStateType {
   data: WorkoutDataType[];
-  active: WorkoutDataType | null;
+  exercises: ExerciseType[];
+  active: ExerciseType | null;
+  activeIndex: number;
 }
 
-const reducers = (state: WorkoutsStateType = { data: [], active: null }, action: AnyAction) => {
+const initialState = {
+  data: [],
+  exercises: [],
+  active: null,
+  activeIndex: 0,
+};
+
+const reducers = (state: WorkoutsStateType = initialState, action: AnyAction) => {
   switch (action.type) {
-    case actions.SET_WORKOUT_DATA:
+    case actions.SET_WORKOUT_DATA: {
+      const data = [...action.data];
+      const exercises = data
+        .map(({ exercises }) => exercises)
+        .reduce((prev, next) => [...prev, ...next]);
       return {
-        data: [...action.data],
-        active: action.data[0],
+        ...state,
+        data,
+        exercises: exercises,
+        active: exercises[0],
       };
+    }
+
+    case actions.SELECT_NEXT_EXERCISE: {
+      const index = state.activeIndex + 1;
+      return {
+        ...state,
+        active: state.exercises[index],
+        activeIndex: index,
+      };
+    }
+
+    case actions.SELECT_PREV_EXERCISE: {
+      const index = state.activeIndex - 1;
+      return {
+        ...state,
+        active: state.exercises[index],
+        activeIndex: index,
+      };
+    }
+
     default:
       return state;
   }

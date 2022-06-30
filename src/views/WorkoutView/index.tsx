@@ -18,7 +18,7 @@ import {
 import useWorkoutView from './useWorkoutView';
 
 const WorkoutView = () => {
-  const { seconds, minutes, workoutData, goBack, startWorkout } = useWorkoutView();
+  const { seconds, minutes, data, goBack, startWorkout } = useWorkoutView();
 
   return (
     <MainContainer>
@@ -34,7 +34,7 @@ const WorkoutView = () => {
         </h3>
       </DataContainer>
       <CategoriesContainer>
-        {workoutData.map(({ title, exercises }, idx) => (
+        {data.map(({ title, exercises }, idx) => (
           <CategoryItemContainer key={idx}>
             <TitleContainer>{title}</TitleContainer>
             <>
