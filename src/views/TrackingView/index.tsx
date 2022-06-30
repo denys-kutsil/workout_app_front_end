@@ -21,12 +21,12 @@ const TrackingView = () => {
     isPreparation,
     title,
     isPaused,
-    exercisesList,
+    exercises,
     percentage,
     activeDuration,
     activeColor,
-    activeExercise,
-    exerciseIndex,
+    active,
+    activeIndex,
     changeExercise,
     onLeaveButtonClick,
     togglePauseStatus,
@@ -36,7 +36,7 @@ const TrackingView = () => {
     <MainContainer>
       <TitleContainer>{title}</TitleContainer>
       <ProgressContainer>
-        <SwitchExerciseButton visible={exerciseIndex !== 0} onClick={changeExercise(false)}>
+        <SwitchExerciseButton visible={activeIndex !== 0} onClick={changeExercise(false)}>
           <PlayPrevIcon />
         </SwitchExerciseButton>
         <CircularProgressbarContainer>
@@ -52,13 +52,13 @@ const TrackingView = () => {
           />
         </CircularProgressbarContainer>
         <SwitchExerciseButton
-          visible={exerciseIndex !== exercisesList.length - 1}
+          visible={activeIndex !== exercises.length - 1}
           onClick={changeExercise(true)}
         >
           <PlayNextIcon />
         </SwitchExerciseButton>
       </ProgressContainer>
-      <ImagePreview image={activeExercise?.photo ?? ''}>
+      <ImagePreview image={active?.photo ?? ''}>
         {isPaused && (
           <PauseContainer>
             <h1>Workout paused</h1>
