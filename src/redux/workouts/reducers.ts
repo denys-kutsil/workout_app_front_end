@@ -4,13 +4,15 @@ import { WorkoutDataType } from './types';
 
 export interface WorkoutsStateType {
   data: WorkoutDataType[];
+  active: WorkoutDataType | null;
 }
 
-const reducers = (state: WorkoutsStateType = { data: [] }, action: AnyAction) => {
+const reducers = (state: WorkoutsStateType = { data: [], active: null }, action: AnyAction) => {
   switch (action.type) {
     case actions.SET_WORKOUT_DATA:
       return {
         data: [...action.data],
+        active: action.data[0],
       };
     default:
       return state;
