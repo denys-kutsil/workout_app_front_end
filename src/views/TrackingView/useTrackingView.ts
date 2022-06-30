@@ -2,10 +2,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { setDuration } from '@/redux/status/actions';
-import { workoutsSelector } from '@/redux/workouts/selectors';
 import { TrackerStatus } from '@/constants';
-import { getTrackerStatus } from '@/views/TrackingView/constants';
-import { selectNextExercise, selectPrevExercise } from '@/redux/workouts/actions';
+import { getTrackerStatus } from './constants';
+import { selectNextExercise, selectPrevExercise, workoutsSelector } from '@/redux/workouts';
 
 const useTrackingView = () => {
   const dispatch = useDispatch();
@@ -14,16 +13,17 @@ const useTrackingView = () => {
   const [trackerStatus, setTrackerStatus] = useState<TrackerStatus>(TrackerStatus.Preparation);
   const [activeDuration, setActiveDuration] = useState(5);
   const [allTime, setAllTime] = useState(5);
-  const interval = useRef<any>(null);
+  const interval = useRef<NodeJS.Timeout>();
 
-  const { isPlaying, isPaused, isPreparation } = useMemo(
-    () => getTrackerStatus(trackerStatus),
-    [trackerStatus],
-  );
+  const statusToObj = useMemo(() => getTrackerStatus(trackerStatus), [trackerStatus]);
+
+  const { isPlaying, isPaused, isPreparation } = statusToObj;
 
   const startTracking = () => {
+    setAllTime(isPlaying ? active?.duration ?? 20 : 5);
+
     const finishTracking = () => {
-      clearInterval(interval.current);
+      clearActiveInterval();
       if (isPreparation) {
         setTrackerStatus(TrackerStatus.Playing);
       } else {
@@ -35,28 +35,30 @@ const useTrackingView = () => {
       }
     };
 
-    const setDurationFunc = (duration: number) => {
-      if (duration - 1 <= 0) finishTracking();
-      return duration - 1;
-    };
+    setAllTime(isPlaying ? active?.duration ?? 20 : 5);
 
     const duration = isPreparation ? 5 : activeDuration ? activeDuration : active?.duration ?? 0;
     setActiveDuration(duration);
 
     interval.current = setInterval(() => {
-      setActiveDuration(setDurationFunc);
+      setActiveDuration((duration: number) => {
+        if (duration - 1 <= 0) finishTracking();
+        return duration - 1;
+      });
     }, 1000);
   };
 
   const changeExercise = (next: boolean) => () => {
-    clearInterval(interval.current);
+    clearActiveInterval();
     dispatch(setDuration(allTime - activeDuration));
+    setTrackerStatus(TrackerStatus.Preparation);
+
     if (next) {
       dispatch(selectNextExercise());
-    } else {
-      dispatch(selectPrevExercise());
+      return;
     }
-    setTrackerStatus(TrackerStatus.Preparation);
+
+    dispatch(selectPrevExercise());
   };
 
   const onLeaveButtonClick = () => {
@@ -67,13 +69,16 @@ const useTrackingView = () => {
   useEffect(() => {
     if (!exercises.length) return;
 
-    if (isPaused) {
-      clearInterval(interval.current);
+    if (statusToObj.isPaused) {
+      clearActiveInterval();
     } else {
-      setAllTime(isPlaying ? active?.duration ?? 20 : 5);
       startTracking();
     }
-  }, [isPlaying, isPaused, active, exercises.length]);
+  }, [statusToObj, exercises.length]);
+
+  const clearActiveInterval = () => {
+    clearInterval(interval.current as NodeJS.Timeout);
+  };
 
   const togglePauseStatus = () => {
     setTrackerStatus(isPaused ? TrackerStatus.Playing : TrackerStatus.Paused);
