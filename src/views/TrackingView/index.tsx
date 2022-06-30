@@ -3,25 +3,25 @@ import { buildStyles, CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import { PauseTrackingButton, PlayNextIcon, PlayPrevIcon, PlayTrackingButton } from '@/icons';
 import {
+  CircularProgressbarContainer,
+  FooterContainer,
+  ImagePreview,
+  LeaveButton,
   MainContainer,
-  TitleContainer,
+  PauseButtonContainer,
+  PauseContainer,
   ProgressContainer,
   SwitchExerciseButton,
-  CircularProgressbarContainer,
-  ImagePreview,
-  PauseContainer,
-  LeaveButton,
-  FooterContainer,
-  PauseButtonContainer,
+  TitleContainer,
 } from './styled-components';
 import useTrackingView from './useTrackingView';
 
 const TrackingView = () => {
   const {
+    isPreparation,
     title,
-    isPause,
+    isPaused,
     exercisesList,
-    isTrackPlaying,
     percentage,
     activeDuration,
     activeColor,
@@ -29,7 +29,7 @@ const TrackingView = () => {
     exerciseIndex,
     changeExercise,
     onLeaveButtonClick,
-    setPause,
+    togglePauseStatus,
   } = useTrackingView();
 
   return (
@@ -59,7 +59,7 @@ const TrackingView = () => {
         </SwitchExerciseButton>
       </ProgressContainer>
       <ImagePreview image={activeExercise?.photo ?? ''}>
-        {isPause && (
+        {isPaused && (
           <PauseContainer>
             <h1>Workout paused</h1>
             <h2>Press “Play button” or “Space bar” to continue</h2>
@@ -67,10 +67,10 @@ const TrackingView = () => {
           </PauseContainer>
         )}
       </ImagePreview>
-      {isTrackPlaying && (
+      {!isPreparation && (
         <FooterContainer>
-          <PauseButtonContainer onClick={() => setPause(!isPause)}>
-            {isPause ? <PlayTrackingButton /> : <PauseTrackingButton />}
+          <PauseButtonContainer onClick={togglePauseStatus}>
+            {isPaused ? <PlayTrackingButton /> : <PauseTrackingButton />}
           </PauseButtonContainer>
         </FooterContainer>
       )}
