@@ -5,7 +5,11 @@ export interface StatusStateType {
   duration: number;
 }
 
-const reducers = (state: StatusStateType = { duration: 0 }, action: AnyAction) => {
+const initialValue = {
+  duration: 0,
+};
+
+const reducers = (state: StatusStateType = initialValue, action: AnyAction) => {
   const { type, duration } = action;
   switch (type) {
     case actions.SET_DURATION:
