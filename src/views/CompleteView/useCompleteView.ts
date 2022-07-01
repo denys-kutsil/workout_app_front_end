@@ -1,6 +1,6 @@
 import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { statusDurationSelector } from '@/redux/status/selectors';
+import { statusDurationSelector } from '@/redux/status';
 
 const useCompleteView = () => {
   const history = useHistory();
@@ -12,6 +12,7 @@ const useCompleteView = () => {
   const saveAndContinue = () => {
     history.push('/');
   };
+
   return {
     minutes,
     seconds,

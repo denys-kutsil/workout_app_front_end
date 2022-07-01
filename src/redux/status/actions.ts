@@ -2,7 +2,7 @@ const actions = {
   SET_DURATION: 'status/SET_DURATION',
 };
 
-export const setDuration = (duration: number) => {
+export const setTotalDuration = (duration: number) => {
   return {
     type: actions.SET_DURATION,
     duration,
