@@ -19,15 +19,15 @@ import useTrackingView from './useTrackingView';
 
 const TrackingView = () => {
   const {
+    switchNextVisible,
+    switchPrevVisible,
     isPreparation,
     title,
     isPaused,
-    exercises,
     percentage,
     activeDuration,
     activeColor,
     active,
-    activeIndex,
     changeExercise,
     onLeaveButtonClick,
     togglePauseStatus,
@@ -37,7 +37,7 @@ const TrackingView = () => {
     <MainContainer>
       <TitleContainer>{title}</TitleContainer>
       <ProgressContainer>
-        <SwitchExerciseButton visible={activeIndex !== 0} onClick={changeExercise(false)}>
+        <SwitchExerciseButton visible={switchPrevVisible} onClick={changeExercise(false)}>
           <PlayPrevIcon />
         </SwitchExerciseButton>
         <CircularProgressbarContainer>
@@ -52,14 +52,10 @@ const TrackingView = () => {
             })}
           />
         </CircularProgressbarContainer>
-        <SwitchExerciseButton
-          visible={activeIndex !== exercises.length - 1}
-          onClick={changeExercise(true)}
-        >
+        <SwitchExerciseButton visible={switchNextVisible} onClick={changeExercise(true)}>
           <PlayNextIcon />
         </SwitchExerciseButton>
       </ProgressContainer>
-
       {active?.photo && (
         <ImagePreview image={active.photo}>
           {isPaused && (
@@ -71,7 +67,6 @@ const TrackingView = () => {
           )}
         </ImagePreview>
       )}
-
       {!isPreparation && (
         <FooterContainer>
           <PauseButtonContainer onClick={togglePauseStatus}>

@@ -35,14 +35,13 @@ const useTrackingView = () => {
   const changeExercise = (next: boolean) => () => {
     clearActiveInterval();
     dispatch(setTotalDuration(allTime - activeDuration));
-    setTrackerStatus(TrackerStatus.Preparation);
 
     if (next) {
       dispatch(selectNextExercise());
-      return;
+    } else {
+      dispatch(selectPrevExercise());
     }
-
-    dispatch(selectPrevExercise());
+    setTrackerStatus(TrackerStatus.Preparation);
   };
 
   const onLeaveButtonClick = () => {
@@ -78,7 +77,7 @@ const useTrackingView = () => {
   useEffect(() => {
     if (!exercises.length) return;
     startTracking();
-  }, [statusToObj, exercises.length]);
+  }, [trackerStatus, active, exercises.length]);
 
   const clearActiveInterval = () => {
     clearInterval(interval.current as NodeJS.Timeout);
@@ -91,19 +90,19 @@ const useTrackingView = () => {
   const percentage = (activeDuration * 100) / allTime;
   const activeColor = isPlaying ? 'rgba(255, 64, 129, 1)' : 'rgba(29, 233, 182, 1)';
   const title = isPlaying ? active?.title : 'Get Ready';
+  const switchNextVisible = activeIndex !== exercises.length - 1;
+  const switchPrevVisible = activeIndex !== 0;
 
   return {
-    activeIndex,
-    isPlaying,
-    isPaused,
+    switchNextVisible,
+    switchPrevVisible,
     isPreparation,
-    trackerStatus,
     title,
-    exercises,
-    active,
+    isPaused,
     percentage,
     activeDuration,
     activeColor,
+    active,
     changeExercise,
     onLeaveButtonClick,
     togglePauseStatus,
