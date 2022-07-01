@@ -18,10 +18,9 @@ module.exports = {
     ecmaVersion: 'latest',
     sourceType: 'module',
   },
-  plugins: ['react',"react-hooks", '@typescript-eslint', 'unused-imports'],
+  plugins: ['react', 'react-hooks', '@typescript-eslint', 'unused-imports'],
   rules: {
     'react-hooks/rules-of-hooks': 'error',
-    'react-hooks/exhaustive-deps': 'warn',
     'no-unused-vars': 'off',
     'unused-imports/no-unused-imports': 'error',
     '@typescript-eslint/explicit-module-boundary-types': ['off'],

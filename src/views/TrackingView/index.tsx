@@ -1,5 +1,6 @@
 import React from 'react';
 import { buildStyles, CircularProgressbar } from 'react-circular-progressbar';
+
 import 'react-circular-progressbar/dist/styles.css';
 import { PauseTrackingButton, PlayNextIcon, PlayPrevIcon, PlayTrackingButton } from '@/icons';
 import {
@@ -58,15 +59,19 @@ const TrackingView = () => {
           <PlayNextIcon />
         </SwitchExerciseButton>
       </ProgressContainer>
-      <ImagePreview image={active?.photo ?? ''}>
-        {isPaused && (
-          <PauseContainer>
-            <h1>Workout paused</h1>
-            <h2>Press “Play button” or “Space bar” to continue</h2>
-            <LeaveButton onClick={onLeaveButtonClick}>Leave workout</LeaveButton>
-          </PauseContainer>
-        )}
-      </ImagePreview>
+
+      {active?.photo && (
+        <ImagePreview image={active.photo}>
+          {isPaused && (
+            <PauseContainer>
+              <h1>Workout paused</h1>
+              <h2>Press “Play button” or “Space bar” to continue</h2>
+              <LeaveButton onClick={onLeaveButtonClick}>Leave workout</LeaveButton>
+            </PauseContainer>
+          )}
+        </ImagePreview>
+      )}
+
       {!isPreparation && (
         <FooterContainer>
           <PauseButtonContainer onClick={togglePauseStatus}>
