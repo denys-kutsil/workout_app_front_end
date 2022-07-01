@@ -1,15 +1,12 @@
 import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { workoutsSelector } from '@/redux/workouts/selectors';
-import { statusDurationSelector } from '@/redux/status/selectors';
+import { workoutsSelector } from '@/redux/workouts';
+import { statusSelector } from '@/redux/status';
 
 const useWorkoutView = () => {
   const history = useHistory();
   const { data } = useSelector(workoutsSelector);
-  const statusDuration = useSelector(statusDurationSelector);
-
-  const minutes = Math.floor(statusDuration / 60);
-  const seconds = statusDuration > 60 ? statusDuration - minutes * 60 : statusDuration;
+  const { minutes, seconds } = useSelector(statusSelector);
 
   const goBack = () => {
     history.goBack();

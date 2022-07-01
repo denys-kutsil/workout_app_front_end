@@ -1,3 +1,3 @@
 import { IRootState } from '@/redux/reducers';
 
-export const statusDurationSelector = (state: IRootState) => state.status.duration;
+export const statusSelector = (state: IRootState) => state.status;
