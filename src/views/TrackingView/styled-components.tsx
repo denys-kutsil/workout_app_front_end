@@ -1,7 +1,7 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const MainContainer = styled.div`
-  width: 500px;
+  width: 600px;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -47,8 +47,7 @@ export const CircularProgressbarContainer = styled.div`
 `;
 
 export const SwitchExerciseButton = styled.button`
-  visibility: ${(props: { visible: boolean }) =>
-    props.visible ? "visible" : `hidden`};
+  visibility: ${(props: { visible: boolean }) => (props.visible ? 'visible' : `hidden`)};
   width: 80px;
   height: 50px;
   border: 2px solid #aa00ff;
@@ -61,15 +60,31 @@ export const SwitchExerciseButton = styled.button`
   }
 `;
 
-export const ImagePreview = styled.div`
-  background-image: ${(props: { image: string }) => `url(${props.image})`};
+export const ImagePreview = styled.img`
   width: 100%;
-  height: 500px;
-  border-radius: 8px;
-  background-size: cover;
-  margin-top: 32px;
+  height: 300px;
+  object-fit: contain;
+  margin-top: 20px;
+`;
+
+export const VideoContainer = styled.div`
+  position: relative;
+  margin-top: 20px;
+`;
+
+export const Descriptions = styled.ol`
+  margin-top: 30px;
+`;
+
+export const DescriptionItem = styled.li`
+  margin-top: 10px;
+  font-weight: bold;
+  font-family: SF-Pro-Text;
   @media (max-width: 500px) {
-    height: 300px;
+    text-align: center;
+    padding-left: 20px;
+    padding-right: 20px;
+    font-size: 14px;
   }
 `;
 
@@ -79,6 +94,8 @@ export const PauseContainer = styled.div`
   background: rgb(33, 33, 33, 0.6);
   border-radius: 8px;
   display: flex;
+  top: 0;
+  position: absolute;
   flex-direction: column;
   justify-content: center;
   align-items: center;

@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { setTotalDuration } from '@/redux/status/actions';
 import { TrackerStatus } from '@/constants';
-import { getTrackerStatus } from './constants';
+import { getTrackerStatus, splitStrToArrayByTitle } from './constants';
 import { selectNextExercise, selectPrevExercise, workoutsSelector } from '@/redux/workouts';
 
 const useTrackingView = () => {
@@ -14,6 +14,11 @@ const useTrackingView = () => {
   const [activeDuration, setActiveDuration] = useState(5);
   const [allTime, setAllTime] = useState(5);
   const interval = useRef<NodeJS.Timeout>();
+
+  const description = useMemo(
+    () => splitStrToArrayByTitle(active?.description ?? ''),
+    [active?.description],
+  );
 
   const statusToObj = useMemo(() => getTrackerStatus(trackerStatus), [trackerStatus]);
 
@@ -94,15 +99,19 @@ const useTrackingView = () => {
   const switchPrevVisible = activeIndex !== 0;
 
   return {
+    description,
     switchNextVisible,
     switchPrevVisible,
     isPreparation,
     title,
+    isPlaying,
     isPaused,
     percentage,
     activeDuration,
     activeColor,
     active,
+    statusToObj,
+    trackerStatus,
     changeExercise,
     onLeaveButtonClick,
     togglePauseStatus,
