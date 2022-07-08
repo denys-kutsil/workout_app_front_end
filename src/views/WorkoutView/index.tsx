@@ -1,60 +1,53 @@
 import React from 'react';
-import { PrimaryButton } from '@/components';
-import { previewImg } from '@/assets/images';
-import { ArrowIcon } from '@/icons';
+import { ArrowIcon } from '@/components';
 
-import {
-  MainContainer,
-  ArrowIconWrapper,
-  DataContainer,
-  CategoriesContainer,
-  CategoryItemContainer,
-  TitleContainer,
-  WorkoutItem,
-  WorkoutItemData,
-  ButtonContainer,
-  ImagePreview,
-} from './styled-components';
 import useWorkoutView from './useWorkoutView';
-
+import { Box, Button, Typography } from '@mui/material';
+import styles from './styles';
 const WorkoutView = () => {
   const { seconds, minutes, data, goBack, startWorkout } = useWorkoutView();
 
   return (
-    <MainContainer>
-      <ArrowIconWrapper onClick={goBack}>
+    <Box>
+      <Box sx={styles.arrowIcon} onClick={goBack}>
         <ArrowIcon />
-      </ArrowIconWrapper>
-      <ImagePreview src={previewImg} alt="preview-img" />
-      <DataContainer>
-        <h2>Day 1</h2>
-        <h1>Morning Flexibility Routine</h1>
-        <h3>
+      </Box>
+      <img src="/assets/images/preview.png" alt="preview-img" width="100%" />
+      <Box sx={styles.date}>
+        <Typography variant="h5" fontWeight="bold">
+          Day 1
+        </Typography>
+        <Typography>Morning Flexibility Routine</Typography>
+        <Typography>
           {minutes} min {seconds} sec
-        </h3>
-      </DataContainer>
-      <CategoriesContainer>
+        </Typography>
+      </Box>
+      <Box sx={styles.categories}>
         {data.map(({ title, exercises }, idx) => (
-          <CategoryItemContainer key={idx}>
-            <TitleContainer>{title}</TitleContainer>
+          <Box key={idx} sx={styles.categoryItem}>
+            <Typography mb={2} variant="h5">
+              {title}
+            </Typography>
             <>
               {exercises.map(({ title, photo, duration, id }) => (
-                <WorkoutItem key={id}>
-                  <img src={photo} alt="photo" />
-                  <WorkoutItemData>
-                    <h1>{title}</h1>
-                    <h2>{duration} sec</h2>
-                  </WorkoutItemData>
-                </WorkoutItem>
+                <Box sx={styles.exercise} key={id}>
+                  <img src={photo} alt="photo" height={64} width={64} />
+                  <Box sx={styles.workoutItem}>
+                    <Typography variant="h6">{title}</Typography>
+                    <Typography variant="h6">{duration} sec</Typography>
+                  </Box>
+                </Box>
               ))}
             </>
-          </CategoryItemContainer>
+          </Box>
         ))}
-      </CategoriesContainer>
-      <ButtonContainer>
-        <PrimaryButton onClick={startWorkout}>Start Workout</PrimaryButton>
-      </ButtonContainer>
-    </MainContainer>
+      </Box>
+      <Box sx={styles.buttonContainer}>
+        <Button onClick={startWorkout} color="primary" variant="contained" sx={styles.button}>
+          Start Workout
+        </Button>
+      </Box>
+    </Box>
   );
 };
 

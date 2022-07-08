@@ -1,13 +1,13 @@
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { statusSelector } from '@/redux/status';
 
 const useCompleteView = () => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const { minutes, seconds } = useSelector(statusSelector);
 
   const saveAndContinue = () => {
-    history.push('/');
+    navigate('/');
   };
 
   return {

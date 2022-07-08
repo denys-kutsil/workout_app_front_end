@@ -1,34 +1,33 @@
 import React from 'react';
-import { CheckIcon } from '@/icons';
-import { PrimaryButton } from '@/components';
-import {
-  MainContainer,
-  TimeContainerWrapper,
-  TimeContainer,
-  DurationContainer,
-} from './styled-components';
+import { CheckIcon } from '@/components';
 import useCompleteView from './useCompleteView';
+import { Box, Typography, Button } from '@mui/material';
+import styles from './styles';
 
 const CompleteView = () => {
   const { minutes, seconds, saveAndContinue } = useCompleteView();
 
   return (
-    <MainContainer>
-      <CheckIcon />
-      <h1>Workout completed!</h1>
-      <h2>Nice job. You’re done. Here’s the workout summary.</h2>
-      <TimeContainerWrapper>
-        <TimeContainer>
-          <h3>Minutes</h3>
-          <DurationContainer>{minutes}</DurationContainer>
-        </TimeContainer>
-        <TimeContainer>
-          <h3>Seconds</h3>
-          <DurationContainer>{seconds}</DurationContainer>
-        </TimeContainer>
-      </TimeContainerWrapper>
-      <PrimaryButton onClick={saveAndContinue}>Save & Continue</PrimaryButton>
-    </MainContainer>
+    <Box sx={styles.main}>
+      <CheckIcon sx={styles.checkIcon} />
+      <Typography variant="h3" mt={1}>
+        Workout completed!
+      </Typography>
+      <Typography mt={1}>Nice job. You’re done. Here’s the workout summary.</Typography>
+      <Box sx={styles.timeContainerWrapper}>
+        <Box sx={styles.timeContainer}>
+          <Typography variant="h5">Minutes</Typography>
+          <Typography>{minutes}</Typography>
+        </Box>
+        <Box sx={styles.timeContainer}>
+          <Typography variant="h5">Seconds</Typography>
+          <Typography>{seconds}</Typography>
+        </Box>
+      </Box>
+      <Button color="primary" variant="contained" sx={{ mt: 2, p: 3 }} onClick={saveAndContinue}>
+        Save & Continue
+      </Button>
+    </Box>
   );
 };
 

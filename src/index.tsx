@@ -1,13 +1,22 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
-import { App } from './views';
-import store from './redux';
-import './index.css';
+import { createRoot } from 'react-dom/client';
+import { BrowserRouter } from 'react-router-dom';
 
-ReactDOM.render(
-  <Provider store={store}>
-    <App />
-  </Provider>,
-  document.getElementById('root'),
+import { ThemeProvider } from '@mui/material';
+import { Provider } from 'react-redux';
+import { App } from '@/views';
+import { theme } from '@/constants';
+import store from '@/redux';
+
+const rootElement = document.getElementById('root');
+const root = createRoot(rootElement as Element);
+
+root.render(
+  <BrowserRouter>
+    <ThemeProvider theme={theme}>
+      <Provider store={store}>
+        <App />
+      </Provider>
+    </ThemeProvider>
+  </BrowserRouter>,
 );

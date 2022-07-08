@@ -1,26 +1,25 @@
 import React from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import { WorkoutView, TrackingView, CompleteView } from '@/views';
-import { BackgroundDecorationBottom, BackgroundDecorationTop } from '@/icons';
 import useApp from './useApp';
-import { MainContainer } from './styled-components';
 import styles from './styles';
+import { Container } from '@mui/material';
+
+import { BackgroundDecorationBottomIcon, BackgroundDecorationTopIcon } from '@/components';
 
 const App = () => {
   useApp();
 
   return (
-    <MainContainer>
-      <BackgroundDecorationTop style={styles.backgroundTop} />
-      <BackgroundDecorationBottom style={styles.backgroundBottom} />
-      <Router>
-        <Switch>
-          <Route path="/" component={WorkoutView} exact={true} />
-          <Route path="/tracking" component={TrackingView} />
-          <Route path="/complete" component={CompleteView} />
-        </Switch>
-      </Router>
-    </MainContainer>
+    <Container maxWidth="md">
+      <BackgroundDecorationTopIcon style={styles.backgroundTop} />
+      <BackgroundDecorationBottomIcon style={styles.backgroundBottom} />
+      <Routes>
+        <Route path="/" element={<WorkoutView />} />
+        <Route path="/tracking" element={<TrackingView />} />
+        <Route path="/complete" element={<CompleteView />} />
+      </Routes>
+    </Container>
   );
 };
 

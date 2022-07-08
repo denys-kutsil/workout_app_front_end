@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { setTotalDuration } from '@/redux/status/actions';
 import { TrackerStatus } from '@/constants';
@@ -8,7 +8,7 @@ import { selectNextExercise, selectPrevExercise, workoutsSelector } from '@/redu
 
 const useTrackingView = () => {
   const dispatch = useDispatch();
-  const history = useHistory();
+  const navigate = useNavigate();
   const { exercises, active, activeIndex } = useSelector(workoutsSelector);
   const [trackerStatus, setTrackerStatus] = useState<TrackerStatus>(TrackerStatus.Preparation);
   const [activeDuration, setActiveDuration] = useState(5);
@@ -31,7 +31,7 @@ const useTrackingView = () => {
     } else {
       dispatch(setTotalDuration(active?.duration ?? 0));
       if (activeIndex === exercises.length - 1) {
-        history.push('/complete');
+        navigate('/complete');
       }
       changeExercise(true)();
     }
@@ -51,7 +51,7 @@ const useTrackingView = () => {
 
   const onLeaveButtonClick = () => {
     dispatch(setTotalDuration(allTime - activeDuration));
-    history.push('/complete');
+    navigate('/complete');
   };
 
   const updateDuration = (init = false) => {
