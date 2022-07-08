@@ -1,24 +1,14 @@
 import React from 'react';
 import { buildStyles, CircularProgressbar } from 'react-circular-progressbar';
-import ReactPlayer from 'react-player';
 import { videoConfig } from './constants';
-import { PauseTrackingButton, PlayNextIcon, PlayPrevIcon, PlayTrackingButton } from '@/icons';
-import {
-  CircularProgressbarContainer,
-  DescriptionItem,
-  Descriptions,
-  FooterContainer,
-  ImagePreview,
-  LeaveButton,
-  MainContainer,
-  PauseButtonContainer,
-  PauseContainer,
-  ProgressContainer,
-  SwitchExerciseButton,
-  TitleContainer,
-  VideoContainer,
-} from './styled-components';
+import styles from './styles';
+import { Box, Typography, Button } from '@mui/material';
 import useTrackingView from './useTrackingView';
+import { PauseTrackingIcon, PlayTrackingIcon, PlayPrevIcon, PlayNextIcon } from '@/components';
+import { default as _ReactPlayer } from 'react-player';
+import { ReactPlayerProps } from 'react-player/types/lib';
+const ReactPlayer = _ReactPlayer as unknown as React.FC<ReactPlayerProps>;
+
 import 'react-circular-progressbar/dist/styles.css';
 
 const TrackingView = () => {
@@ -40,13 +30,21 @@ const TrackingView = () => {
   } = useTrackingView();
 
   return (
-    <MainContainer>
-      <TitleContainer>{title}</TitleContainer>
-      <ProgressContainer>
-        <SwitchExerciseButton visible={switchPrevVisible} onClick={changeExercise(false)}>
-          <PlayPrevIcon />
-        </SwitchExerciseButton>
-        <CircularProgressbarContainer>
+    <Box>
+      <Typography variant="h4" sx={styles.title}>
+        {title}
+      </Typography>
+      <Box sx={styles.progressContainer}>
+        <Button
+          sx={{
+            ...styles.switchExercise,
+            visibility: switchPrevVisible ? 'visible' : `hidden`,
+          }}
+          onClick={changeExercise(false)}
+        >
+          <PlayPrevIcon sx={styles.arrowIcon} />
+        </Button>
+        <Box sx={styles.circularProgressbar}>
           <CircularProgressbar
             value={percentage}
             text={`${activeDuration}`}
@@ -57,23 +55,31 @@ const TrackingView = () => {
               trailColor: '#EEEEEE',
             })}
           />
-        </CircularProgressbarContainer>
-        <SwitchExerciseButton visible={switchNextVisible} onClick={changeExercise(true)}>
-          <PlayNextIcon />
-        </SwitchExerciseButton>
-      </ProgressContainer>
+        </Box>
+        <Button
+          sx={{
+            ...styles.switchExercise,
+            visibility: switchNextVisible ? 'visible' : 'hidden',
+          }}
+          onClick={changeExercise(true)}
+        >
+          <PlayNextIcon sx={styles.arrowIcon} />
+        </Button>
+      </Box>
       {isPreparation ? (
-        <div>
-          {active?.photo && <ImagePreview src={active.photo} />}
-          <Descriptions>
+        <Box>
+          {active?.photo && <img src={active.photo} style={styles.imagePreview} alt="photo" />}
+          <Box mt={3}>
             {description.map((item, idx) => (
-              <DescriptionItem key={idx}>{item}</DescriptionItem>
+              <Typography textAlign="center" component="li" key={idx}>
+                {item}
+              </Typography>
             ))}
-          </Descriptions>
-        </div>
+          </Box>
+        </Box>
       ) : (
         <>
-          <VideoContainer>
+          <Box sx={styles.video}>
             <ReactPlayer
               url={active?.video ?? ''}
               playing={isPlaying}
@@ -84,21 +90,29 @@ const TrackingView = () => {
               muted
             />
             {isPaused && (
-              <PauseContainer>
-                <h1>Workout paused</h1>
-                <h2>Press “Play button” or “Space bar” to continue</h2>
-                <LeaveButton onClick={onLeaveButtonClick}>Leave workout</LeaveButton>
-              </PauseContainer>
+              <Box sx={styles.pause}>
+                <Typography variant="h4" color="white">
+                  Workout paused
+                </Typography>
+                <Typography mt={2}>Press “Play button” or “Space bar” to continue</Typography>
+                <Button variant="outlined" onClick={onLeaveButtonClick} sx={styles.leaveButton}>
+                  Leave workout
+                </Button>
+              </Box>
             )}
-          </VideoContainer>
-          <FooterContainer>
-            <PauseButtonContainer onClick={togglePauseStatus}>
-              {isPaused ? <PlayTrackingButton /> : <PauseTrackingButton />}
-            </PauseButtonContainer>
-          </FooterContainer>
+          </Box>
+          <Box sx={styles.footer}>
+            <Box onClick={togglePauseStatus} sx={styles.playAndPause}>
+              {isPaused ? (
+                <PlayTrackingIcon sx={styles.playAndPauseIcon} />
+              ) : (
+                <PauseTrackingIcon sx={styles.playAndPauseIcon} />
+              )}
+            </Box>
+          </Box>
         </>
       )}
-    </MainContainer>
+    </Box>
   );
 };
 

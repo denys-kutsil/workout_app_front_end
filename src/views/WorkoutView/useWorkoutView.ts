@@ -1,19 +1,19 @@
-import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { workoutsSelector } from '@/redux/workouts';
 import { statusSelector } from '@/redux/status';
+import { useNavigate } from 'react-router-dom';
 
 const useWorkoutView = () => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const { data } = useSelector(workoutsSelector);
   const { minutes, seconds } = useSelector(statusSelector);
 
   const goBack = () => {
-    history.goBack();
+    navigate(-1);
   };
 
   const startWorkout = () => {
-    history.push('/tracking');
+    navigate('/tracking');
   };
 
   return {
