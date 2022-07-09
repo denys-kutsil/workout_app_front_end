@@ -79,7 +79,7 @@ const styles = {
   },
   descriptionContainer: {
     maxWidth: {
-      md: 600,
+      md: 300,
       xs: '100%',
     },
     mt: {
