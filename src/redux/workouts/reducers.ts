@@ -1,6 +1,7 @@
-import { AnyAction } from 'redux';
 import actions from './actions';
 import { ExerciseType, WorkoutDataType } from './types';
+
+import type { AnyAction } from 'redux';
 
 export interface WorkoutsStateType {
   data: WorkoutDataType[];

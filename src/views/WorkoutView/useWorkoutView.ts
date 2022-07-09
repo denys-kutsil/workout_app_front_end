@@ -1,7 +1,8 @@
 import { useSelector } from 'react-redux';
-import { workoutsSelector } from '@/redux/workouts';
-import { statusSelector } from '@/redux/status';
 import { useNavigate } from 'react-router-dom';
+
+import { statusSelector } from '@/redux/status';
+import { workoutsSelector } from '@/redux/workouts';
 
 const useWorkoutView = () => {
   const navigate = useNavigate();

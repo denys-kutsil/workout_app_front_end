@@ -1,6 +1,7 @@
-import { combineReducers } from "redux";
-import workouts, { WorkoutsStateType } from "./workouts/reducers";
-import status, { StatusStateType } from "./status/reducers";
+import { combineReducers } from 'redux';
+
+import status, { StatusStateType } from './status/reducers';
+import workouts, { WorkoutsStateType } from './workouts/reducers';
 
 export interface IRootState {
   workouts: WorkoutsStateType;

@@ -1,11 +1,12 @@
+import { Container } from '@mui/material';
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import { WorkoutView, TrackingView, CompleteView } from '@/views';
-import useApp from './useApp';
-import styles from './styles';
-import { Container } from '@mui/material';
 
 import { BackgroundDecorationBottomIcon, BackgroundDecorationTopIcon } from '@/components';
+import { WorkoutView, TrackingView, CompleteView } from '@/views';
+
+import styles from './styles';
+import useApp from './useApp';
 
 const App = () => {
   useApp();

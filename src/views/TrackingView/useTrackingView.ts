@@ -1,10 +1,12 @@
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { useEffect, useMemo, useRef, useState } from 'react';
-import { setTotalDuration } from '@/redux/status/actions';
+
 import { TrackerStatus } from '@/constants';
-import { getTrackerStatus, splitStrToArrayByTitle } from './constants';
+import { setTotalDuration } from '@/redux/status/actions';
 import { selectNextExercise, selectPrevExercise, workoutsSelector } from '@/redux/workouts';
+
+import { getTrackerStatus, splitStrToArrayByTitle } from './constants';
 
 const useTrackingView = () => {
   const dispatch = useDispatch();

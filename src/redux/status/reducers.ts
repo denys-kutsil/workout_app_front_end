@@ -1,5 +1,6 @@
-import { AnyAction } from 'redux';
 import actions from './actions';
+
+import type { AnyAction } from 'redux';
 
 export interface StatusStateType {
   duration: number;

@@ -1,13 +1,16 @@
+import { Box, Typography, Button, IconButton } from '@mui/material';
 import React from 'react';
 import { buildStyles, CircularProgressbar } from 'react-circular-progressbar';
+import ReactPlayer from 'react-player';
+
+import { PauseTrackingIcon, PlayTrackingIcon, PlayPrevIcon, PlayNextIcon } from '@/components';
+
+import 'react-circular-progressbar/dist/styles.css';
+import { theme } from '@/constants';
+
 import { videoConfig } from './constants';
 import styles from './styles';
-import { Box, Typography, Button, IconButton } from '@mui/material';
 import useTrackingView from './useTrackingView';
-import { PauseTrackingIcon, PlayTrackingIcon, PlayPrevIcon, PlayNextIcon } from '@/components';
-import ReactPlayer from 'react-player';
-import { theme } from '@/constants';
-import 'react-circular-progressbar/dist/styles.css';
 
 const TrackingView = () => {
   const {

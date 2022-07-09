@@ -1,8 +1,10 @@
-import React from 'react';
-import { CheckIcon } from '@/components';
-import useCompleteView from './useCompleteView';
 import { Box, Typography, Button } from '@mui/material';
+import React from 'react';
+
+import { CheckIcon } from '@/components';
+
 import styles from './styles';
+import useCompleteView from './useCompleteView';
 
 const CompleteView = () => {
   const { minutes, seconds, saveAndContinue } = useCompleteView();
