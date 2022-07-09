@@ -24,7 +24,7 @@ const CompleteView = () => {
           <Typography>{seconds}</Typography>
         </Box>
       </Box>
-      <Button color="primary" variant="contained" sx={{ mt: 2, p: 3 }} onClick={saveAndContinue}>
+      <Button color="primary" variant="contained" sx={styles.btn} onClick={saveAndContinue}>
         Save & Continue
       </Button>
     </Box>

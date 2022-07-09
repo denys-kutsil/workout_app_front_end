@@ -6,7 +6,7 @@ const styles = {
     alignItems: 'center',
     width: {
       md: '60%',
-      xs: '90%',
+      xs: 'auto',
     },
     margin: 'auto',
     height: '100vh',
@@ -26,6 +26,10 @@ const styles = {
   },
   checkIcon: {
     fontSize: 47,
+  },
+  btn: {
+    mt: 2,
+    p: 3,
   },
 } as const;
 

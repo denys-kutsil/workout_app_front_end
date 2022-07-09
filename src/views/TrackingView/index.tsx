@@ -2,13 +2,11 @@ import React from 'react';
 import { buildStyles, CircularProgressbar } from 'react-circular-progressbar';
 import { videoConfig } from './constants';
 import styles from './styles';
-import { Box, Typography, Button } from '@mui/material';
+import { Box, Typography, Button, IconButton } from '@mui/material';
 import useTrackingView from './useTrackingView';
 import { PauseTrackingIcon, PlayTrackingIcon, PlayPrevIcon, PlayNextIcon } from '@/components';
-import { default as _ReactPlayer } from 'react-player';
-import { ReactPlayerProps } from 'react-player/types/lib';
-const ReactPlayer = _ReactPlayer as unknown as React.FC<ReactPlayerProps>;
-
+import ReactPlayer from 'react-player';
+import { theme } from '@/constants';
 import 'react-circular-progressbar/dist/styles.css';
 
 const TrackingView = () => {
@@ -52,7 +50,7 @@ const TrackingView = () => {
             styles={buildStyles({
               pathColor: activeColor,
               textColor: activeColor,
-              trailColor: '#EEEEEE',
+              trailColor: theme.palette.grey.A200,
             })}
           />
         </Box>
@@ -66,12 +64,13 @@ const TrackingView = () => {
           <PlayNextIcon sx={styles.arrowIcon} />
         </Button>
       </Box>
-      {isPreparation ? (
-        <Box>
-          {active?.photo && <img src={active.photo} style={styles.imagePreview} alt="photo" />}
-          <Box mt={3}>
+      {isPreparation && active ? (
+        <Box sx={styles.description}>
+          <img src={active.photo} style={styles.imagePreview} alt="photo" />
+          <Box component="ol" sx={styles.descriptionContainer}>
+            <Typography variant="h4">Steps: </Typography>
             {description.map((item, idx) => (
-              <Typography textAlign="center" component="li" key={idx}>
+              <Typography variant="h6" mt={1} component="li" key={idx}>
                 {item}
               </Typography>
             ))}
@@ -102,13 +101,13 @@ const TrackingView = () => {
             )}
           </Box>
           <Box sx={styles.footer}>
-            <Box onClick={togglePauseStatus} sx={styles.playAndPause}>
+            <IconButton onClick={togglePauseStatus}>
               {isPaused ? (
                 <PlayTrackingIcon sx={styles.playAndPauseIcon} />
               ) : (
                 <PauseTrackingIcon sx={styles.playAndPauseIcon} />
               )}
-            </Box>
+            </IconButton>
           </Box>
         </>
       )}
