@@ -1,5 +1,6 @@
-import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+
 import { statusSelector } from '@/redux/status';
 
 const useCompleteView = () => {

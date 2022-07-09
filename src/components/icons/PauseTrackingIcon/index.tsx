@@ -1,7 +1,10 @@
-import { SvgIcon, SvgIconProps } from '@mui/material';
+import { SvgIcon } from '@mui/material';
 import React from 'react';
-import { mergeSx } from '@/utils';
+
 import styles from '@/components/icons/styles';
+import { mergeSx } from '@/utils';
+
+import type { SvgIconProps } from '@mui/material';
 
 const PauseTrackingIcon = ({ viewBox = '0 0 64 64', sx, ...rest }: SvgIconProps) => (
   <SvgIcon viewBox={viewBox} sx={mergeSx(styles.root, sx)} {...rest}>

@@ -1,5 +1,7 @@
-import { theme, Theme } from '@/constants';
 import { alpha } from '@mui/material';
+
+import { theme, Theme } from '@/constants';
+
 const { common, primary, grey } = theme.palette;
 
 const styles = {

@@ -1,4 +1,5 @@
 import axios, { AxiosResponse } from 'axios';
+
 import { envUtil } from '@/utils';
 
 const { api, api_token } = envUtil.getEnv();
