@@ -86,9 +86,27 @@ export const theme = createTheme(baseTheme, {
         },
       },
     },
+    MuiButtonBase: {
+      styleOverrides: {
+        root: {
+          '&:hover': {
+            cursor: 'pointer',
+            transform: 'scale(1.02)',
+            transition: '0.5s ease transform',
+          },
+        },
+      },
+    },
     MuiIconButton: {
       styleOverrides: {
         root: {
+          p: 0,
+          '&:hover': {
+            cursor: 'pointer',
+            transform: 'scale(1.1)',
+            transition: '0.5s ease transform',
+            background: 'transparent',
+          },
           '& .MuiSvgIcon-root': {
             '&:hover': {
               cursor: 'pointer',
@@ -412,7 +430,7 @@ export const theme = createTheme(baseTheme, {
       '700': '#0059B2',
       '800': '#004C99',
       '900': '#003A75',
-      main: '#3F8CFF',
+      main: '#aa00ff',
       light: '#66B2FF',
       dark: '#0059B2',
       contrastText: '#fff',

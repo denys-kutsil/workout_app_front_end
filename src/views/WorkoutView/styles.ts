@@ -19,13 +19,7 @@ const styles = {
     p: 3,
   },
   arrowIcon: {
-    marginBottom: 3,
-    '&:hover': {
-      cursor: 'pointer',
-      transform: 'scale(1.02)',
-      transition: '0.5s ease transform',
-    },
-    py: 2,
+    margin: (theme: Theme) => theme.spacing(1, 0, 3, 0),
   },
   exercise: {
     display: 'flex',

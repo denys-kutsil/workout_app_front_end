@@ -2,21 +2,20 @@ import React from 'react';
 import { ArrowIcon } from '@/components';
 
 import useWorkoutView from './useWorkoutView';
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Button, Typography, IconButton } from '@mui/material';
 import styles from './styles';
+
 const WorkoutView = () => {
   const { seconds, minutes, data, goBack, startWorkout } = useWorkoutView();
 
   return (
     <Box>
-      <Box sx={styles.arrowIcon} onClick={goBack}>
+      <IconButton sx={styles.arrowIcon} onClick={goBack}>
         <ArrowIcon />
-      </Box>
+      </IconButton>
       <img src="/assets/images/preview.png" alt="preview-img" width="100%" />
       <Box sx={styles.date}>
-        <Typography variant="h5" fontWeight="bold">
-          Day 1
-        </Typography>
+        <Typography variant="h5">Day 1</Typography>
         <Typography>Morning Flexibility Routine</Typography>
         <Typography>
           {minutes} min {seconds} sec

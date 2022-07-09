@@ -1,4 +1,6 @@
-import { Theme } from '@/constants';
+import { theme, Theme } from '@/constants';
+import { alpha } from '@mui/material';
+const { common, primary, grey } = theme.palette;
 
 const styles = {
   title: {
@@ -21,7 +23,7 @@ const styles = {
   pause: {
     width: '100%',
     height: '100%',
-    background: 'rgb(33, 33, 33, 0.6)',
+    background: alpha(common.black, 0.6),
     borderRadius: 1,
     display: 'flex',
     top: 0,
@@ -32,7 +34,7 @@ const styles = {
     color: 'white',
   },
   footer: {
-    borderTop: '8px solid #eeeeee',
+    borderTop: `8px solid ${grey.A200}`,
     width: '100%',
     position: 'fixed',
     bottom: 0,
@@ -41,38 +43,30 @@ const styles = {
     justifyContent: 'center',
     alignContent: 'center',
     py: 1,
-    background: 'white',
+    background: common.white,
   },
   imagePreview: {
     width: '100%',
     height: 300,
     objectFit: 'contain',
-    marginTop: 30,
   },
   switchExercise: {
     width: 80,
     height: 50,
-    border: '2px solid #aa00ff',
+    border: `2px solid ${primary.main}`,
     borderRadius: 1,
     background: 'transparent',
   },
   leaveButton: {
-    border: '2px solid #eeeeee',
+    border: `2px solid ${common.white}`,
     background: 'transparent',
-    color: '#eeeeee',
+    color: common.white,
     borderRadius: 1,
     width: 250,
     height: 48,
     mt: 2,
     '&:hover': {
-      border: '2px solid  #eeeeee',
-    },
-  },
-  playAndPause: {
-    '&:hover, &:focus': {
-      cursor: 'pointer',
-      transform: 'scale(1.05)',
-      transition: '0.5s ease transform',
+      border: `2px solid  ${grey.A200}`,
     },
   },
   arrowIcon: {
@@ -80,6 +74,29 @@ const styles = {
   },
   playAndPauseIcon: {
     fontSize: 64,
+  },
+  descriptionContainer: {
+    maxWidth: {
+      md: 600,
+      xs: '100%',
+    },
+    mt: {
+      md: 0,
+      xs: 1,
+    },
+  },
+  description: {
+    display: 'flex',
+    justifyContent: 'space-evenly',
+    flexDirection: {
+      md: 'row',
+      xs: 'column',
+    },
+    px: {
+      md: 0,
+      xs: 1,
+    },
+    mt: 3,
   },
 } as const;
 
