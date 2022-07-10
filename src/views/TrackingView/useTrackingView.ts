@@ -3,8 +3,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import { TrackerStatus } from '@/constants';
-import { setTotalDuration } from '@/redux/status/actions';
-import { selectNextExercise, selectPrevExercise, workoutsSelector } from '@/redux/workouts';
+import { setTotalDuration } from '@/redux/status/slice';
+import { workoutsSelector } from '@/redux/workouts';
+import { selectPrevExercise, selectNextExercise } from '@/redux/workouts/slice';
 
 import { getTrackerStatus, splitStrToArrayByTitle } from './constants';
 

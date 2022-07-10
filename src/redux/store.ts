@@ -1,13 +1,7 @@
-import { compose, configureStore } from '@reduxjs/toolkit';
+import { configureStore } from '@reduxjs/toolkit';
 
-import { statusReducer } from '@/redux/status';
-import { workoutsReducer } from '@/redux/workouts';
-
-declare global {
-  interface Window {
-    __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
-  }
-}
+import { statusReducer, IStatusStateType } from '@/redux/status';
+import { IWorkoutsStateType, workoutsReducer } from '@/redux/workouts';
 
 const store = configureStore({
   reducer: {
@@ -16,9 +10,12 @@ const store = configureStore({
   },
 });
 
+export interface IRootState {
+  workouts: IWorkoutsStateType;
+  status: IStatusStateType;
+}
+
 // Infer the `RootState` and `AppDispatch` types from the store itself
 export type RootState = ReturnType<typeof store.getState>;
 // Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
 export type AppDispatch = typeof store.dispatch;
-
-export default store;

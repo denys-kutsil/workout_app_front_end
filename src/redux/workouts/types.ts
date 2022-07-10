@@ -1,3 +1,10 @@
+export interface IWorkoutsStateType {
+  data: WorkoutDataType[];
+  exercises: ExerciseType[];
+  active: ExerciseType | null;
+  activeIndex: number;
+}
+
 export interface ExerciseType {
   description: string;
   duration: number;
