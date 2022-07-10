@@ -12,11 +12,11 @@ const rootElement = document.getElementById('root');
 const root = createRoot(rootElement as Element);
 
 root.render(
-  <BrowserRouter>
-    <ThemeProvider theme={theme}>
-      <Provider store={store}>
+  <Provider store={store}>
+    <BrowserRouter>
+      <ThemeProvider theme={theme}>
         <App />
-      </Provider>
-    </ThemeProvider>
-  </BrowserRouter>,
+      </ThemeProvider>
+    </BrowserRouter>
+  </Provider>,
 );

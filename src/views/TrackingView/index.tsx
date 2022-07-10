@@ -4,7 +4,6 @@ import { buildStyles, CircularProgressbar } from 'react-circular-progressbar';
 import ReactPlayer from 'react-player';
 
 import { PauseTrackingIcon, PlayTrackingIcon, PlayPrevIcon, PlayNextIcon } from '@/components';
-
 import 'react-circular-progressbar/dist/styles.css';
 import { theme } from '@/constants';
 

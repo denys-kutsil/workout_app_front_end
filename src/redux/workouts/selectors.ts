@@ -1,3 +1,3 @@
-import { IRootState } from '@/redux/reducers';
+import { IRootState } from '@/redux/store';
 
 export const workoutsSelector = (state: IRootState) => state.workouts;
