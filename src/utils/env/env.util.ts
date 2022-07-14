@@ -4,6 +4,7 @@ const mapEnv = () => {
   const parsed: IEnv = {
     api: process.env.REACT_APP_API || '',
     api_token: process.env.REACT_APP_API_TOKEN || '',
+    backend_url: process.env.REACT_APP_API_BACKEND || '',
   };
 
   return Object.freeze(parsed);
