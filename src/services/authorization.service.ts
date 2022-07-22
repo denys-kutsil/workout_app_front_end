@@ -1,18 +1,20 @@
-import axios from 'axios';
-
-import { envUtil } from '@/utils';
+import { api } from '@/services';
 
 import type { IAuthParams } from '@/types';
-const { backend_url } = envUtil.getEnv();
 
 const signUp = async (params: IAuthParams) => {
-  const { data } = await axios.post(`${backend_url}/auth/sign-up`, params);
+  const { data } = await api.post('/auth/sign-up', params);
   return data;
 };
 
 const signIn = async (params: IAuthParams) => {
-  const { data } = await axios.post(`${backend_url}/auth/sign-in`, params);
+  const { data } = await api.post(`/auth/sign-in`, params);
   return data;
 };
 
-export default { signUp, signIn };
+const checkAuth = async () => {
+  const { data } = await api.get('/auth/refresh');
+  return data;
+};
+
+export default { signUp, signIn, checkAuth };

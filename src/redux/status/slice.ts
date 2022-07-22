@@ -25,6 +25,6 @@ export const statusSlice = createSlice({
   },
 });
 
-export const { setTotalDuration } = statusSlice.actions;
+export const statusActions = statusSlice.actions;
 
 export default statusSlice.reducer;

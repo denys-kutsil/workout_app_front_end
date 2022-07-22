@@ -38,6 +38,6 @@ export const workoutsSlice = createSlice({
   },
 });
 
-export const { selectPrevExercise, selectNextExercise } = workoutsSlice.actions;
+export const workoutsActions = workoutsSlice.actions;
 
 export default workoutsSlice.reducer;

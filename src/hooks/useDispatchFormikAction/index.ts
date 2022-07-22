@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import { IFormErrorResponse, ISuccessResponse } from '@/types';
 
 import type { IFormikActionOptions } from './types';
-import type { AppDispatch } from '@/redux/store';
+import type { AppDispatch } from '@/redux';
 import type { AsyncThunkAction } from '@reduxjs/toolkit';
 import type { FormikHelpers } from 'formik';
 
