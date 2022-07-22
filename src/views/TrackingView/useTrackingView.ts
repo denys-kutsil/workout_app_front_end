@@ -1,17 +1,16 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import { TrackerStatus } from '@/constants';
-import { setTotalDuration } from '@/redux/status/slice';
+import { useActions } from '@/hooks';
 import { workoutsSelector } from '@/redux/workouts';
-import { selectPrevExercise, selectNextExercise } from '@/redux/workouts/slice';
 
 import { getTrackerStatus, splitStrToArrayByTitle } from './constants';
 
 const useTrackingView = () => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { selectPrevExercise, selectNextExercise, setTotalDuration } = useActions();
   const { exercises, active, activeIndex } = useSelector(workoutsSelector);
   const [trackerStatus, setTrackerStatus] = useState<TrackerStatus>(TrackerStatus.Preparation);
   const [activeDuration, setActiveDuration] = useState(5);
@@ -32,7 +31,7 @@ const useTrackingView = () => {
     if (isPreparation) {
       setTrackerStatus(TrackerStatus.Playing);
     } else {
-      dispatch(setTotalDuration(active?.duration ?? 0));
+      setTotalDuration(active?.duration ?? 0);
       if (activeIndex === exercises.length - 1) {
         navigate('/complete');
       }
@@ -42,18 +41,17 @@ const useTrackingView = () => {
 
   const changeExercise = (next: boolean) => () => {
     clearActiveInterval();
-    dispatch(setTotalDuration(allTime - activeDuration));
-
+    setTotalDuration(allTime - activeDuration);
     if (next) {
-      dispatch(selectNextExercise());
+      selectNextExercise();
     } else {
-      dispatch(selectPrevExercise());
+      selectPrevExercise();
     }
     setTrackerStatus(TrackerStatus.Preparation);
   };
 
   const onLeaveButtonClick = () => {
-    dispatch(setTotalDuration(allTime - activeDuration));
+    setTotalDuration(allTime - activeDuration);
     navigate('/complete');
   };
 
