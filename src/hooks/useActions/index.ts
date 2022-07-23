@@ -1,15 +1,9 @@
 import { bindActionCreators } from '@reduxjs/toolkit';
 import { useDispatch } from 'react-redux';
 
-import { statusActions } from '@/redux/status/slice';
-import { workoutsActions } from '@/redux/workouts/slice';
+import type { ActionCreatorsMapObject } from '@reduxjs/toolkit';
 
-const actions = {
-  ...statusActions,
-  ...workoutsActions,
-};
-
-const useActions = () => {
+const useActions = <T>(actions: ActionCreatorsMapObject<T>) => {
   const dispatch = useDispatch();
   return bindActionCreators(actions, dispatch);
 };

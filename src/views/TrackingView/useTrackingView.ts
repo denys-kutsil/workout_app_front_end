@@ -4,13 +4,15 @@ import { useNavigate } from 'react-router-dom';
 
 import { TrackerStatus } from '@/constants';
 import { useActions } from '@/hooks';
-import { workoutsSelector } from '@/redux/workouts';
+import { statusActions } from '@/redux/status';
+import { workoutsSelector, workoutsActions } from '@/redux/workouts';
 
 import { getTrackerStatus, splitStrToArrayByTitle } from './constants';
 
 const useTrackingView = () => {
   const navigate = useNavigate();
-  const { selectPrevExercise, selectNextExercise, setTotalDuration } = useActions();
+  const { selectPrevExercise, selectNextExercise } = useActions(workoutsActions);
+  const { setTotalDuration } = useActions(statusActions);
   const { exercises, active, activeIndex } = useSelector(workoutsSelector);
   const [trackerStatus, setTrackerStatus] = useState<TrackerStatus>(TrackerStatus.Preparation);
   const [activeDuration, setActiveDuration] = useState(5);
