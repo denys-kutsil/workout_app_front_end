@@ -1,15 +1,11 @@
-import { useDispatchFormikAction } from '@/hooks';
-import { signUp } from '@/redux/user';
+import { useSignUpMutation } from '@/apis/auth';
 import { IAuthParams } from '@/types';
 
-import type { FormikHelpers } from 'formik';
-
 const useEmailSignUpForm = () => {
-  const dispatchFormikAction = useDispatchFormikAction<IAuthParams>();
+  const [signUp] = useSignUpMutation();
 
-  const onSubmit = (params: IAuthParams, formik: FormikHelpers<IAuthParams>) => {
-    const action = signUp(params);
-    dispatchFormikAction(action, formik);
+  const onSubmit = (params: IAuthParams) => {
+    signUp(params);
   };
 
   return { onSubmit };

@@ -2,9 +2,9 @@ import type { IEnv } from './env.type';
 
 const mapEnv = () => {
   const parsed: IEnv = {
-    api: process.env.REACT_APP_API || '',
+    workoutApi: process.env.REACT_APP_API || '',
     api_token: process.env.REACT_APP_API_TOKEN || '',
-    backend_url: process.env.REACT_APP_API_BACKEND || '',
+    api: process.env.REACT_APP_API_BACKEND || '',
   };
 
   return Object.freeze(parsed);

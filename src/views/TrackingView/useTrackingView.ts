@@ -1,23 +1,31 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
+import { useGetWorkoutsDataQuery } from '@/apis/workouts';
 import { TrackerStatus } from '@/constants';
 import { useActions } from '@/hooks';
 import { statusActions } from '@/redux/status';
-import { workoutsSelector, workoutsActions } from '@/redux/workouts';
 
 import { getTrackerStatus, splitStrToArrayByTitle } from './constants';
 
 const useTrackingView = () => {
   const navigate = useNavigate();
-  const { selectPrevExercise, selectNextExercise } = useActions(workoutsActions);
   const { setTotalDuration } = useActions(statusActions);
-  const { exercises, active, activeIndex } = useSelector(workoutsSelector);
+  const { data: workout } = useGetWorkoutsDataQuery();
   const [trackerStatus, setTrackerStatus] = useState<TrackerStatus>(TrackerStatus.Preparation);
   const [activeDuration, setActiveDuration] = useState(5);
   const [allTime, setAllTime] = useState(5);
   const interval = useRef<NodeJS.Timeout>();
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  const exercises = useMemo(
+    () =>
+      workout?.data?.questions
+        ?.map(({ exercises }) => exercises)
+        ?.reduce((prev, next) => [...prev, ...next]),
+    [workout],
+  );
+  const active = exercises?.[activeIndex];
 
   const description = useMemo(
     () => splitStrToArrayByTitle(active?.description ?? ''),
@@ -34,7 +42,7 @@ const useTrackingView = () => {
       setTrackerStatus(TrackerStatus.Playing);
     } else {
       setTotalDuration(active?.duration ?? 0);
-      if (activeIndex === exercises.length - 1) {
+      if (activeIndex === (exercises?.length ?? 0) - 1) {
         navigate('/complete');
       }
       changeExercise(true)();
@@ -45,9 +53,9 @@ const useTrackingView = () => {
     clearActiveInterval();
     setTotalDuration(allTime - activeDuration);
     if (next) {
-      selectNextExercise();
+      setActiveIndex((prev) => prev + 1);
     } else {
-      selectPrevExercise();
+      setActiveIndex((prev) => prev - 1);
     }
     setTrackerStatus(TrackerStatus.Preparation);
   };
@@ -83,9 +91,9 @@ const useTrackingView = () => {
   };
 
   useEffect(() => {
-    if (!exercises.length) return;
+    if (!exercises?.length) return;
     startTracking();
-  }, [trackerStatus, active, exercises.length]);
+  }, [trackerStatus, active, exercises?.length]);
 
   const clearActiveInterval = () => {
     clearInterval(interval.current as NodeJS.Timeout);
@@ -98,7 +106,7 @@ const useTrackingView = () => {
   const percentage = (activeDuration * 100) / allTime;
   const activeColor = isPlaying ? 'rgba(255, 64, 129, 1)' : 'rgba(29, 233, 182, 1)';
   const title = isPlaying ? active?.title : 'Get Ready';
-  const switchNextVisible = activeIndex !== exercises.length - 1;
+  const switchNextVisible = activeIndex !== (exercises?.length ?? 0) - 1;
   const switchPrevVisible = activeIndex !== 0;
 
   return {

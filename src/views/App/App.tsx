@@ -9,11 +9,8 @@ import { WorkoutView, TrackingView, CompleteView, AuthView } from '@/views';
 import 'react-toastify/dist/ReactToastify.css';
 
 import styles from './styles';
-import useApp from './useApp';
 
 const App = () => {
-  useApp();
-
   return (
     <Container maxWidth="md">
       <BackgroundDecorationTopIcon style={styles.backgroundTop} />

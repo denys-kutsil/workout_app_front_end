@@ -30,6 +30,7 @@ module.exports = {
     'import/namespace': 'error',
     'import/default': 'error',
     'import/export': 'error',
+    'react/prop-types': 'off',
     'import/order': [
       1,
       {

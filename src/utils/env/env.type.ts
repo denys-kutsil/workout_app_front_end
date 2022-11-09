@@ -1,5 +1,5 @@
 export interface IEnv {
-  api: string;
+  workoutApi: string;
   api_token: string;
-  backend_url: string;
+  api: string;
 }
