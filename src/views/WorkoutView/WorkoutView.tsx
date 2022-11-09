@@ -7,7 +7,7 @@ import styles from './styles';
 import useWorkoutView from './useWorkoutView';
 
 const WorkoutView = () => {
-  const { seconds, minutes, data, goBack, startWorkout } = useWorkoutView();
+  const { seconds, minutes, questions, goBack, startWorkout } = useWorkoutView();
 
   return (
     <Box>
@@ -23,7 +23,7 @@ const WorkoutView = () => {
         </Typography>
       </Box>
       <Box sx={styles.categories}>
-        {data.map(({ title, exercises }, idx) => (
+        {questions?.map(({ title, exercises }, idx) => (
           <Box key={idx} sx={styles.categoryItem}>
             <Typography mb={2} variant="h5">
               {title}

@@ -1,12 +1,14 @@
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
+import { useGetWorkoutsDataQuery } from '@/apis/workouts';
 import { statusSelector } from '@/redux/status';
-import { workoutsSelector } from '@/redux/workouts';
 
 const useWorkoutView = () => {
   const navigate = useNavigate();
-  const { data } = useSelector(workoutsSelector);
+
+  const { data: workout } = useGetWorkoutsDataQuery();
+  const questions = workout?.data?.questions;
   const { minutes, seconds } = useSelector(statusSelector);
 
   const goBack = () => {
@@ -21,7 +23,7 @@ const useWorkoutView = () => {
     seconds,
     history,
     minutes,
-    data,
+    questions,
     goBack,
     startWorkout,
   };

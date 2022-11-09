@@ -7,3 +7,7 @@ export interface IFormErrorResponse<FormValues> {
 export interface ISuccessResponse {
   message: string;
 }
+
+export * from './workout';
+export * from './exercises';
+export * from './questions';
