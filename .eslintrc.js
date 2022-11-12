@@ -67,6 +67,7 @@ module.exports = {
     ],
     'react-hooks/rules-of-hooks': 'error',
     'no-unused-vars': 'off',
+    '@typescript-eslint/no-unused-vars': 'warn',
     'unused-imports/no-unused-imports': 'error',
     '@typescript-eslint/ban-types': 'off',
     '@typescript-eslint/explicit-module-boundary-types': ['off'],

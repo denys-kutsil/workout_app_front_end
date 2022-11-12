@@ -1,15 +1,14 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 import { IAuthParams, IWorkoutResponse } from '@/types';
-import { setAccessTokenToHeaders, envUtil } from '@/utils';
+import { envUtil } from '@/utils';
 
 const { api, api_token } = envUtil.getEnv();
 
 export const authApi = createApi({
   reducerPath: 'authApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: `${api}//auth`,
-    prepareHeaders: (headers) => setAccessTokenToHeaders(headers),
+    baseUrl: `${api}/auth`,
   }),
   tagTypes: ['Workouts'],
   endpoints: (builder) => ({
