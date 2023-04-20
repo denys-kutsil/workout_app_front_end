@@ -1,17 +1,19 @@
-import { Box, CircularProgress } from '@mui/material';
 import React from 'react';
-import { Navigate } from 'react-router-dom';
+import type { ReactNode, FC } from 'react';
 
-import { useAuthContext } from '@/context';
+import { Box, CircularProgress } from '@mui/material';
+import { Navigate } from 'react-router-dom';
 
 import { styles } from './styles';
 
+import { useAuthContext } from '@/context';
+
 interface IAuthGateProps {
-  children: React.ReactNode;
+  children: ReactNode;
   isPrivate: boolean;
 }
 
-const AuthGate: React.FC<IAuthGateProps> = ({ isPrivate, children }) => {
+const AuthGate: FC<IAuthGateProps> = ({ isPrivate, children }) => {
   const { user, isLoading } = useAuthContext();
   if (!user && isPrivate && !isLoading) {
     return <Navigate to="/sign-in" />;

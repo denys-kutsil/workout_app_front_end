@@ -1,12 +1,13 @@
 import { useLocation } from 'react-router-dom';
 
-import { ROUTES_ENUM } from '@/constants';
+import { Routes } from '@/constants';
 
 const useAuthView = () => {
   const { pathname } = useLocation();
-  const isSignIn = pathname === ROUTES_ENUM.SIGN_IN;
+  const isSignIn = pathname === Routes.SignIn;
 
-  const url = isSignIn ? ROUTES_ENUM.SIGN_UP : ROUTES_ENUM.SIGN_IN;
+  const url = isSignIn ? Routes.SignUp : Routes.SignIn;
+
   const linkText = isSignIn
     ? "Don't have an account? Sign Up"
     : 'Already have an account? Sign In ';

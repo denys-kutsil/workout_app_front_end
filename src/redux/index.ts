@@ -2,7 +2,6 @@ import { combineReducers, compose, configureStore } from '@reduxjs/toolkit';
 
 import { workoutsApi, authApi } from '@/apis';
 import { statusReducer } from '@/redux/status';
-
 import type { IStatusStateType } from '@/redux/status';
 
 declare global {

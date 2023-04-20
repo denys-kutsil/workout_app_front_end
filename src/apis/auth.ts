@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-import { IAuthParams, IWorkoutResponse } from '@/types';
+import type { IAuthParams, IWorkoutResponse } from '@/types';
 import { envUtil } from '@/utils';
 
 const { api, api_token } = envUtil.getEnv();

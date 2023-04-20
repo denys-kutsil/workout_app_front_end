@@ -32,31 +32,22 @@ module.exports = {
     'import/export': 'error',
     'react/prop-types': 'off',
     'import/order': [
-      1,
+      'error',
       {
-        groups: ['builtin', 'external', 'internal', 'parent', 'sibling', 'index', 'object', 'type'],
+        groups: ['builtin', 'external', 'internal', 'parent', 'sibling', 'index'],
+        pathGroups: [
+          {
+            pattern: 'react',
+            group: 'external',
+            position: 'before',
+          },
+        ],
+        pathGroupsExcludedImportTypes: ['react'],
         'newlines-between': 'always',
         alphabetize: {
           order: 'asc',
           caseInsensitive: true,
         },
-        pathGroups: [
-          {
-            pattern: '@/**',
-            group: 'external',
-            position: 'after',
-          },
-        ],
-        pathGroupsExcludedImportTypes: [
-          'builtin',
-          'external',
-          'internal',
-          'parent',
-          'sibling',
-          'index',
-          'object',
-          'type',
-        ],
       },
     ],
     'no-restricted-imports': [
@@ -67,7 +58,6 @@ module.exports = {
     ],
     'react-hooks/rules-of-hooks': 'error',
     'no-unused-vars': 'off',
-    '@typescript-eslint/no-unused-vars': 'warn',
     'unused-imports/no-unused-imports': 'error',
     '@typescript-eslint/ban-types': 'off',
     '@typescript-eslint/explicit-module-boundary-types': ['off'],

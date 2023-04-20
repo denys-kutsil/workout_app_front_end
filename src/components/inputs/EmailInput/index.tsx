@@ -1,12 +1,12 @@
-import { Email } from '@mui/icons-material';
-import { InputAdornment } from '@mui/material';
 import React from 'react';
 
-import { TextInput } from '@/components';
+import { Email } from '@mui/icons-material';
+import { InputAdornment } from '@mui/material';
 
 import styles from './styles';
-
 import type { IEmailInputProps } from './types';
+
+import { TextInput } from '@/components';
 
 function EmailInput<
   V = string,

@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 import { setAccessTokenToHeaders } from '@/helpers';
-import { IWorkoutResponse } from '@/types';
+import type { IWorkoutResponse } from '@/types';
 import { envUtil } from '@/utils';
 
 const { workoutApi, api_token } = envUtil.getEnv();

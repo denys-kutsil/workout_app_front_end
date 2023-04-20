@@ -1,6 +1,7 @@
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
+import { Routes } from '@/constants';
 import { statusSelector } from '@/redux/status';
 
 const useCompleteView = () => {
@@ -8,7 +9,7 @@ const useCompleteView = () => {
   const { minutes, seconds } = useSelector(statusSelector);
 
   const saveAndContinue = () => {
-    navigate('/');
+    navigate(Routes.Workout);
   };
 
   return {

@@ -1,21 +1,23 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 
-import { useGetWorkoutsDataQuery } from '@/apis/workouts';
-import { TrackerStatus } from '@/constants';
-import { useActions } from '@/hooks';
-import { statusActions } from '@/redux/status';
+import { useNavigate } from 'react-router-dom';
 
 import { getTrackerStatus, splitStrToArrayByTitle } from './constants';
 
+import { useGetWorkoutsDataQuery } from '@/apis/workouts';
+import { Routes, theme, TrackerStatus } from '@/constants';
+import { useActions } from '@/hooks';
+import { statusActions } from '@/redux/status';
+
 const useTrackingView = () => {
   const navigate = useNavigate();
+  const interval = useRef<NodeJS.Timeout>();
   const { setTotalDuration } = useActions(statusActions);
   const { data: workout } = useGetWorkoutsDataQuery();
+
   const [trackerStatus, setTrackerStatus] = useState<TrackerStatus>(TrackerStatus.Preparation);
   const [activeDuration, setActiveDuration] = useState(5);
   const [allTime, setAllTime] = useState(5);
-  const interval = useRef<NodeJS.Timeout>();
   const [activeIndex, setActiveIndex] = useState(0);
 
   const exercises = useMemo(
@@ -43,7 +45,7 @@ const useTrackingView = () => {
     } else {
       setTotalDuration(active?.duration ?? 0);
       if (activeIndex === (exercises?.length ?? 0) - 1) {
-        navigate('/complete');
+        navigate(Routes.Complete);
       }
       changeExercise(true)();
     }
@@ -52,17 +54,13 @@ const useTrackingView = () => {
   const changeExercise = (next: boolean) => () => {
     clearActiveInterval();
     setTotalDuration(allTime - activeDuration);
-    if (next) {
-      setActiveIndex((prev) => prev + 1);
-    } else {
-      setActiveIndex((prev) => prev - 1);
-    }
+    setActiveIndex((prev) => (next ? prev + 1 : prev - 1));
     setTrackerStatus(TrackerStatus.Preparation);
   };
 
   const onLeaveButtonClick = () => {
     setTotalDuration(allTime - activeDuration);
-    navigate('/complete');
+    navigate(Routes.Complete);
   };
 
   const updateDuration = (init = false) => {
@@ -104,7 +102,7 @@ const useTrackingView = () => {
   };
 
   const percentage = (activeDuration * 100) / allTime;
-  const activeColor = isPlaying ? 'rgba(255, 64, 129, 1)' : 'rgba(29, 233, 182, 1)';
+  const activeColor = isPlaying ? theme.palette.warning.main : theme.palette.success.main;
   const title = isPlaying ? active?.title : 'Get Ready';
   const switchNextVisible = activeIndex !== (exercises?.length ?? 0) - 1;
   const switchPrevVisible = activeIndex !== 0;

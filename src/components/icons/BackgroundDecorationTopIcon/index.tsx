@@ -1,10 +1,10 @@
-import { SvgIcon } from '@mui/material';
 import React from 'react';
+
+import { SvgIcon } from '@mui/material';
+import type { SvgIconProps } from '@mui/material';
 
 import styles from '@/components/icons/styles';
 import { mergeSx } from '@/utils';
-
-import type { SvgIconProps } from '@mui/material';
 
 const BackgroundDecorationTopIcon = ({ viewBox = '0 0 438 361', sx, ...rest }: SvgIconProps) => (
   <SvgIcon viewBox={viewBox} sx={mergeSx(styles.root, sx)} {...rest}>

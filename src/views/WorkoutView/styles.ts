@@ -1,4 +1,5 @@
-import { Theme, theme } from '@/constants';
+import type { Theme } from '@/constants';
+import { theme } from '@/constants';
 
 const styles = {
   buttonContainer: {

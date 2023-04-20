@@ -1,37 +1,37 @@
-import { ROUTES_ENUM } from '@/constants';
+import { Routes } from '@/constants';
 import { EmptyLayout, MainLayout } from '@/layouts';
-import { IRouterParams } from '@/router/types';
+import type { IRouterParams } from '@/router/types';
 import { AuthView, CompleteView, TrackingView, WorkoutView } from '@/views';
 
 const routes: IRouterParams[] = [
   {
     component: WorkoutView,
     layout: MainLayout,
-    path: ROUTES_ENUM.WORKOUT,
+    path: Routes.Workout,
     isPrivate: false,
   },
   {
     component: TrackingView,
     layout: EmptyLayout,
-    path: ROUTES_ENUM.TRACKING,
+    path: Routes.Tracking,
     isPrivate: false,
   },
   {
     component: CompleteView,
     layout: EmptyLayout,
-    path: ROUTES_ENUM.COMPLETE,
+    path: Routes.Complete,
     isPrivate: false,
   },
   {
     component: AuthView,
     layout: EmptyLayout,
-    path: ROUTES_ENUM.SIGN_IN,
+    path: Routes.SignIn,
     isPrivate: false,
   },
   {
     component: AuthView,
     layout: EmptyLayout,
-    path: ROUTES_ENUM.SIGN_UP,
+    path: Routes.SignIn,
     isPrivate: false,
   },
 ];

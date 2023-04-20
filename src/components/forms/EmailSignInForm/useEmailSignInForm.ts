@@ -1,5 +1,5 @@
 import { useSignInMutation } from '@/apis/auth';
-import { IAuthParams } from '@/types';
+import type { IAuthParams } from '@/types';
 
 const useEmailSignInForm = () => {
   const [signIn] = useSignInMutation();

@@ -1,10 +1,10 @@
-import { SvgIcon } from '@mui/material';
 import React from 'react';
+
+import { SvgIcon } from '@mui/material';
+import type { SvgIconProps } from '@mui/material';
 
 import styles from '@/components/icons/styles';
 import { mergeSx } from '@/utils';
-
-import type { SvgIconProps } from '@mui/material';
 
 const PlayNextIcon = ({ viewBox = '0 0 12 12', sx, ...rest }: SvgIconProps) => (
   <SvgIcon viewBox={viewBox} sx={mergeSx(styles.root, sx)} {...rest}>
