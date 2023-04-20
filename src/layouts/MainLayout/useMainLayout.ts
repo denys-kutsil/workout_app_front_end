@@ -1,9 +1,10 @@
 import { useState } from 'react';
+import type { MouseEvent } from 'react';
+
 import { useNavigate } from 'react-router-dom';
 
+import { Routes } from '@/constants';
 import { useAuthContext } from '@/context';
-
-import type { MouseEvent } from 'react';
 
 export const useMainLayout = () => {
   const navigate = useNavigate();
@@ -21,12 +22,12 @@ export const useMainLayout = () => {
   };
 
   const onProfileClick = () => {
-    navigate('/sign-in');
+    navigate(Routes.SignIn);
   };
 
   const onLogoutClick = () => {
     auth.logout();
-    navigate('/sign-in');
+    navigate(Routes.SignIn);
   };
 
   return {

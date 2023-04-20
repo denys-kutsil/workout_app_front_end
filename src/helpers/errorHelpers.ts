@@ -1,4 +1,4 @@
-import { IResponseHttpError } from '@/types';
+import type { IResponseHttpError } from '@/types';
 
 const getErrorMessage = (error: IResponseHttpError) => {
   let message = 'Something went wrong!';

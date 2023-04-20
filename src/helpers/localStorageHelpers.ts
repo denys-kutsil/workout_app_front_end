@@ -1,6 +1,5 @@
-export const getLocalStorageItem = (itemName: string): string | null => {
-  return localStorage.getItem(itemName);
-};
+export const getLocalStorageItem = (itemName: string): string | null =>
+  localStorage.getItem(itemName);
 
 export const setLocalStorageItem = (itemName: string, itemValue: string): void => {
   localStorage.setItem(itemName, itemValue);

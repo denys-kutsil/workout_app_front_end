@@ -1,3 +1,5 @@
+import React, { FC } from 'react';
+
 import {
   AppBar,
   Box,
@@ -9,7 +11,6 @@ import {
   Menu,
   MenuItem,
 } from '@mui/material';
-import React, { FC } from 'react';
 
 import { styles } from './styles';
 import { useMainLayout } from './useMainLayout';

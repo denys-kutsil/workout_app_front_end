@@ -1,5 +1,4 @@
 import { getLocalStorageItem, removeLocalStorageItem, setLocalStorageItem } from '@/helpers';
-
 import type { IAuthContext } from '@/types';
 
 const getDefaultAuthContext = (): IAuthContext => {

@@ -1,6 +1,7 @@
+import React, { useCallback, useState, ReactNode } from 'react';
+
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { TextField, InputAdornment, IconButton } from '@mui/material';
-import React, { useCallback, useState, ReactNode } from 'react';
 
 import type { IPasswordInputProps } from './types';
 

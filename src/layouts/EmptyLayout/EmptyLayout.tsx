@@ -1,7 +1,8 @@
-import { Container } from '@mui/material';
 import React, { FC } from 'react';
 
-import { ILayoutProps } from '@/types';
+import { Container } from '@mui/material';
+
+import type { ILayoutProps } from '@/types';
 
 const EmptyLayout: FC<ILayoutProps> = ({ children }) => {
   return <Container>{children}</Container>;

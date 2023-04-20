@@ -1,8 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
-
-import { IStatusStateType } from './types';
-
 import type { PayloadAction } from '@reduxjs/toolkit';
+
+import type { IStatusStateType } from './types';
 
 const initialState = {
   duration: 0,

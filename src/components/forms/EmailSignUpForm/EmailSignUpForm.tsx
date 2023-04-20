@@ -1,12 +1,13 @@
-import { Button, Grid, Typography } from '@mui/material';
-import { Form, Formik, Field } from 'formik';
 import React from 'react';
 
-import { EmailInput, PasswordInput } from '@/components';
+import { Button, Grid, Typography } from '@mui/material';
+import { Form, Formik, Field } from 'formik';
 
 import { schema } from './schema';
 import styles from './styles';
 import useEmailSignUpForm from './useEmailSignUpForm';
+
+import { EmailInput, PasswordInput } from '@/components';
 
 const EmailSignUpForm = () => {
   const { onSubmit } = useEmailSignUpForm();

@@ -1,11 +1,10 @@
-// eslint-disable-next-line import/named
-import { SvgIcon } from '@mui/material';
 import React from 'react';
+
+import { SvgIcon } from '@mui/material';
+import type { SvgIconProps } from '@mui/material';
 
 import styles from '@/components/icons/styles';
 import { mergeSx } from '@/utils';
-
-import type { SvgIconProps } from '@mui/material';
 
 const BackgroundDecorationBottomIcon = ({
   viewBox = '0 0 1085 1062',

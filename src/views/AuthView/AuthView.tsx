@@ -1,11 +1,12 @@
-import { Box, Link as MuiLink } from '@mui/material';
 import React from 'react';
-import { Link } from 'react-router-dom';
 
-import { EmailSignUpForm, EmailSignInForm } from '@/components';
+import { Box, Link as MuiLink } from '@mui/material';
+import { Link } from 'react-router-dom';
 
 import styles from './styles';
 import useAuthView from './useAuthView';
+
+import { EmailSignUpForm, EmailSignInForm } from '@/components';
 
 const AuthView = () => {
   const { url, linkText, isSignIn } = useAuthView();

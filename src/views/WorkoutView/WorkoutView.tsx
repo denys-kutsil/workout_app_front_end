@@ -1,10 +1,11 @@
-import { Box, Button, Typography, IconButton } from '@mui/material';
 import React from 'react';
 
-import { ArrowIcon } from '@/components';
+import { Box, Button, Typography, IconButton } from '@mui/material';
 
 import styles from './styles';
 import useWorkoutView from './useWorkoutView';
+
+import { ArrowIcon } from '@/components';
 
 const WorkoutView = () => {
   const { seconds, minutes, questions, goBack, startWorkout } = useWorkoutView();

@@ -1,12 +1,13 @@
-import { Container } from '@mui/material';
 import React from 'react';
-import { ToastContainer } from 'react-toastify';
 
-import { BackgroundDecorationBottomIcon, BackgroundDecorationTopIcon } from '@/components';
-import AppRouter from '@/router';
+import { Container } from '@mui/material';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import styles from './styles';
+
+import { BackgroundDecorationBottomIcon, BackgroundDecorationTopIcon } from '@/components';
+import AppRouter from '@/router';
 
 const App = () => (
   <Container maxWidth="md">
