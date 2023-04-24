@@ -1,3 +1,4 @@
 export interface IUserResponse {
-  avatar: string;
+  picture: string;
+  email: string;
 }

@@ -32,7 +32,7 @@ const MainLayout: FC<ILayoutProps> = ({ children }) => {
       <AppBar position="fixed">
         <Toolbar sx={styles.toolbar}>
           <IconButton onClick={handleOpenUserMenu} size="large">
-            {user?.avatar ? <Avatar src={user?.avatar} alt="User Avatar" /> : <Avatar />}
+            {user?.picture ? <Avatar src={user?.picture} alt="User Avatar" /> : <Avatar />}
           </IconButton>
           <Menu
             sx={styles.menu}

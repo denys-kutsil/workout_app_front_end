@@ -1,21 +1,33 @@
-import { getLocalStorageItem, removeLocalStorageItem, setLocalStorageItem } from '@/helpers';
-import type { IAuthContext } from '@/types';
+import jwtDecode from 'jwt-decode';
 
-const getDefaultAuthContext = (): IAuthContext => {
-  return {
-    accessToken: getLocalStorageItem('accessToken') ?? null,
-    isLoading: true,
-    user: null,
-    setAccessToken: function ({ access_token, user }) {
-      setLocalStorageItem('accessToken', access_token);
-      this.user = user;
-    },
-    logout: function () {
-      removeLocalStorageItem('accessToken');
-      this.accessToken = null;
-      this.user = null;
-    },
-  };
-};
+import { getLocalStorageItem, removeLocalStorageItem, setLocalStorageItem } from '@/helpers';
+import type { IAuthContext, IDecodedToken } from '@/types';
+
+const getDefaultAuthContext = (): IAuthContext => ({
+  accessToken: getLocalStorageItem('token') ?? null,
+  isLoading: true,
+  user: null,
+  setAccessToken: function (access_token) {
+    setLocalStorageItem('token', access_token);
+  },
+  isAuthTokenExpired: function () {
+    try {
+      const decodedToken = jwtDecode<IDecodedToken>(this.accessToken as string);
+      const currentTime = Date.now() / 1000;
+      return decodedToken.exp < currentTime;
+    } catch (error) {
+      return true;
+    }
+  },
+  setActiveUser: function ({ user, token }) {
+    setLocalStorageItem('token', token);
+    this.user = user;
+  },
+  logout: function () {
+    removeLocalStorageItem('token');
+    this.accessToken = null;
+    this.user = null;
+  },
+});
 
 export default getDefaultAuthContext;
