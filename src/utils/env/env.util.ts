@@ -5,6 +5,7 @@ const mapEnv = () => {
     workoutApi: process.env.REACT_APP_API || '',
     api_token: process.env.REACT_APP_API_TOKEN || '',
     api: process.env.REACT_APP_API_BACKEND || '',
+    googleClientID: process.env.REACT_APP_API_GOOGLE_CLIENT_ID || '',
   };
 
   return Object.freeze(parsed);

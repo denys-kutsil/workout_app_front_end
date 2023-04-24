@@ -3,11 +3,7 @@ export interface IAuthParams {
   password: string;
 }
 
-export interface IAuthResponse {
-  accessToken: string;
-  refreshToken: string;
-  user: {
-    password: string;
-    email: string;
-  };
+export interface IGoogleAuthParams {
+  email: string;
+  picture: string;
 }
