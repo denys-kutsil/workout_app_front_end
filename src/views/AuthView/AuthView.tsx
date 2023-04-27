@@ -15,6 +15,9 @@ const AuthView = () => {
   return (
     <Box sx={styles.container}>
       {isSignIn ? <EmailSignInForm /> : <EmailSignUpForm />}
+      <Box mt={3}>
+        <GoogleButton type="light" onClick={onGoogleAuth} />
+      </Box>
       <Link to={url} style={styles.link}>
         <MuiLink
           href="#"
@@ -26,9 +29,6 @@ const AuthView = () => {
           {linkText}
         </MuiLink>
       </Link>
-      <Box mt={1}>
-        <GoogleButton onClick={onGoogleAuth} />
-      </Box>
     </Box>
   );
 };

@@ -6,10 +6,12 @@ import { getDefaultAuthContext } from '@/utils';
 
 export const useAuthProvider = () => {
   const [getActiveUser, { data: user, isSuccess }] = useGetActiveUserMutation();
-  const [authContext, setNewAuthContext] = useState<IAuthContext>(getDefaultAuthContext());
+  const [authContextValue, setNewAuthContextValue] = useState<IAuthContext>(
+    getDefaultAuthContext(),
+  );
 
   useEffect(() => {
-    const isExpired = authContext.isAuthTokenExpired();
+    const isExpired = authContextValue.isAuthTokenExpired();
     if (!isExpired) {
       getActiveUser();
     }
@@ -17,9 +19,9 @@ export const useAuthProvider = () => {
 
   useEffect(() => {
     if (isSuccess && user) {
-      setNewAuthContext({ ...authContext, user });
+      setNewAuthContextValue({ ...authContextValue, user });
     }
   }, [user, isSuccess]);
 
-  return authContext;
+  return authContextValue;
 };
