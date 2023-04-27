@@ -2,7 +2,7 @@ import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import { useGetWorkoutsDataQuery } from '@/apis/workouts';
-import { Routes } from '@/constants';
+import { ClientRoutes } from '@/constants';
 import { statusSelector } from '@/redux/status';
 
 const useWorkoutView = () => {
@@ -17,7 +17,7 @@ const useWorkoutView = () => {
   };
 
   const startWorkout = () => {
-    navigate(Routes.Tracking);
+    navigate(ClientRoutes.Tracking);
   };
 
   return {

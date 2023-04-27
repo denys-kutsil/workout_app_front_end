@@ -1,4 +1,4 @@
-import type { ISignInResponse, IUserResponse } from '@/types/responses';
+import type { IUserResponse } from '@/types/responses';
 
 export interface IAuthContext {
   accessToken: string | null;
@@ -6,6 +6,6 @@ export interface IAuthContext {
   user: IUserResponse | null;
   logout: () => void;
   isAuthTokenExpired: () => boolean;
-  setActiveUser: (data: ISignInResponse) => void;
+  setActiveUser: (user: IUserResponse) => void;
   setAccessToken: (token: string) => void;
 }

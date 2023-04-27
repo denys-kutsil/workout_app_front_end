@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Box, Link as MuiLink } from '@mui/material';
-import { GoogleLogin } from '@react-oauth/google';
+import GoogleButton from 'react-google-button';
 import { Link } from 'react-router-dom';
 
 import styles from './styles';
@@ -10,7 +10,7 @@ import useAuthView from './useAuthView';
 import { EmailSignUpForm, EmailSignInForm } from '@/components';
 
 const AuthView = () => {
-  const { url, linkText, isSignIn, onGoogleLoginSuccess } = useAuthView();
+  const { url, linkText, isSignIn, onGoogleAuth } = useAuthView();
 
   return (
     <Box sx={styles.container}>
@@ -26,7 +26,9 @@ const AuthView = () => {
           {linkText}
         </MuiLink>
       </Link>
-      <GoogleLogin onSuccess={onGoogleLoginSuccess} />
+      <Box mt={1}>
+        <GoogleButton onClick={onGoogleAuth} />
+      </Box>
     </Box>
   );
 };
