@@ -25,6 +25,7 @@ const GoogleAuthView = () => {
       navigate(ClientRoutes.Workout);
     }
   }, [user, isSuccess]);
+
   return null;
 };
 
