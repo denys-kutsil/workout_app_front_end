@@ -19,8 +19,7 @@ const getDefaultAuthContext = (): IAuthContext => ({
       return true;
     }
   },
-  setActiveUser: function ({ user, token }) {
-    setLocalStorageItem('token', token);
+  setActiveUser: function (user) {
     this.user = user;
   },
   logout: function () {

@@ -3,14 +3,14 @@ import type { MouseEvent } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 
-import { Routes } from '@/constants';
+import { ClientRoutes } from '@/constants';
 import { useAuthContext } from '@/context';
 
 export const useMainLayout = () => {
   const navigate = useNavigate();
-  const auth = useAuthContext();
+  const authContext = useAuthContext();
 
-  const user = auth.user;
+  const user = authContext.user;
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
 
   const handleOpenUserMenu = (event: MouseEvent<HTMLElement>) => {
@@ -22,12 +22,12 @@ export const useMainLayout = () => {
   };
 
   const onProfileClick = () => {
-    navigate(Routes.SignIn);
+    navigate(ClientRoutes.SignIn);
   };
 
   const onLogoutClick = () => {
-    auth.logout();
-    navigate(Routes.SignIn);
+    authContext.logout();
+    navigate(ClientRoutes.SignIn);
   };
 
   return {

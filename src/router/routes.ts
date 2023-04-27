@@ -1,37 +1,43 @@
-import { Routes } from '@/constants';
+import { ClientRoutes } from '@/constants';
 import { EmptyLayout, MainLayout } from '@/layouts';
 import type { IRouterParams } from '@/router/types';
-import { AuthView, CompleteView, TrackingView, WorkoutView } from '@/views';
+import { AuthView, CompleteView, TrackingView, WorkoutView, GoogleAuthView } from '@/views';
 
 const routes: IRouterParams[] = [
   {
+    component: GoogleAuthView,
+    layout: EmptyLayout,
+    path: ClientRoutes.GoogleAuth,
+    isPrivate: false,
+  },
+  {
     component: WorkoutView,
     layout: MainLayout,
-    path: Routes.Workout,
+    path: ClientRoutes.Workout,
     isPrivate: false,
   },
   {
     component: TrackingView,
     layout: EmptyLayout,
-    path: Routes.Tracking,
+    path: ClientRoutes.Tracking,
     isPrivate: false,
   },
   {
     component: CompleteView,
     layout: EmptyLayout,
-    path: Routes.Complete,
+    path: ClientRoutes.Complete,
     isPrivate: false,
   },
   {
     component: AuthView,
     layout: EmptyLayout,
-    path: Routes.SignIn,
+    path: ClientRoutes.SignIn,
     isPrivate: false,
   },
   {
     component: AuthView,
     layout: EmptyLayout,
-    path: Routes.SignIn,
+    path: ClientRoutes.SignIn,
     isPrivate: false,
   },
 ];

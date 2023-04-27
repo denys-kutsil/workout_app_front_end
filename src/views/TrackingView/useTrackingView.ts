@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { getTrackerStatus, splitStrToArrayByTitle } from './constants';
 
 import { useGetWorkoutsDataQuery } from '@/apis/workouts';
-import { Routes, theme, TrackerStatus } from '@/constants';
+import { ClientRoutes, theme, TrackerStatus } from '@/constants';
 import { useActions } from '@/hooks';
 import { statusActions } from '@/redux/status';
 
@@ -45,7 +45,7 @@ const useTrackingView = () => {
     } else {
       setTotalDuration(active?.duration ?? 0);
       if (activeIndex === (exercises?.length ?? 0) - 1) {
-        navigate(Routes.Complete);
+        navigate(ClientRoutes.Complete);
       }
       changeExercise(true)();
     }
@@ -60,7 +60,7 @@ const useTrackingView = () => {
 
   const onLeaveButtonClick = () => {
     setTotalDuration(allTime - activeDuration);
-    navigate(Routes.Complete);
+    navigate(ClientRoutes.Complete);
   };
 
   const updateDuration = (init = false) => {

@@ -1,11 +1,11 @@
 import { FC } from 'react';
 
-import { Routes } from '@/constants';
+import { ClientRoutes } from '@/constants';
 import type { ILayoutProps } from '@/types';
 
 export interface IRouterParams {
   component: FC;
-  path: Routes;
+  path: ClientRoutes;
   layout: FC<ILayoutProps>;
   isPrivate: boolean;
 }

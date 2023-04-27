@@ -1,43 +1,23 @@
-import { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 
-import type { CredentialResponse } from '@react-oauth/google';
-import jwtDecode from 'jwt-decode';
-import { useLocation, useNavigate } from 'react-router-dom';
-
-import { useGoogleAuthMutation } from '@/apis/auth';
-import { Routes } from '@/constants';
-import { useAuthContext } from '@/context';
-import { IGoogleAuthParams } from '@/types';
+import { ApiRoutes, ClientRoutes } from '@/constants';
+import { openExternalUrl } from '@/utils';
 
 const useAuthView = () => {
-  const navigate = useNavigate();
-  const authContext = useAuthContext();
-  const [googleAuth, { isSuccess, data }] = useGoogleAuthMutation();
   const { pathname } = useLocation();
-  const isSignIn = pathname === Routes.SignIn;
+  const isSignIn = pathname === ClientRoutes.SignIn;
 
-  const url = isSignIn ? Routes.SignUp : Routes.SignIn;
+  const url = isSignIn ? ClientRoutes.SignUp : ClientRoutes.SignIn;
 
   const linkText = isSignIn
     ? "Don't have an account? Sign Up"
     : 'Already have an account? Sign In ';
 
-  useEffect(() => {
-    if (isSuccess && data) {
-      authContext.setActiveUser(data);
-      navigate(Routes.Workout);
-    }
-  }, [isSuccess, data]);
-
-  const onGoogleLoginSuccess = (credentialResponse: CredentialResponse) => {
-    const { credential } = credentialResponse;
-    if (credential) {
-      const { email, picture }: IGoogleAuthParams = jwtDecode(credential);
-      googleAuth({ email, picture });
-    }
+  const onGoogleAuth = () => {
+    openExternalUrl(ApiRoutes.GoogleAuth, true);
   };
 
-  return { url, linkText, isSignIn, onGoogleLoginSuccess };
+  return { url, linkText, isSignIn, onGoogleAuth };
 };
 
 export default useAuthView;

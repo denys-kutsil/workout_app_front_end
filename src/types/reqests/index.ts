@@ -4,6 +4,5 @@ export interface IAuthParams {
 }
 
 export interface IGoogleAuthParams {
-  email: string;
-  picture: string;
+  clientId: string;
 }
