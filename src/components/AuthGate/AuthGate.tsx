@@ -6,6 +6,7 @@ import { Navigate } from 'react-router-dom';
 
 import { styles } from './styles';
 
+import { ClientRoutes } from '@/constants';
 import { useAuthContext } from '@/context';
 
 interface IAuthGateProps {
@@ -16,7 +17,7 @@ interface IAuthGateProps {
 const AuthGate: FC<IAuthGateProps> = ({ isPrivate, children }) => {
   const { user, isLoading } = useAuthContext();
   if (!user && isPrivate && !isLoading) {
-    return <Navigate to="/sign-in" />;
+    return <Navigate to={ClientRoutes.SignIn} />;
   }
   return (
     <>

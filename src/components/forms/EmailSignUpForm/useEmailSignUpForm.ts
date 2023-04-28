@@ -1,10 +1,24 @@
+import { useEffect } from 'react';
+
+import { useNavigate } from 'react-router-dom';
+
 import { useSignUpMutation } from '@/apis/auth';
+import { ClientRoutes } from '@/constants';
 import { useToastMessageRequest } from '@/hooks';
-import type { IAuthParams } from '@/types';
+import type { IAuthParams, IAuthResponse } from '@/types';
 
 const useEmailSignUpForm = () => {
+  const navigate = useNavigate();
   const [signUp, signUpResponseParams] = useSignUpMutation();
-  useToastMessageRequest(signUpResponseParams);
+  const { isSuccess } = signUpResponseParams;
+
+  useToastMessageRequest<IAuthResponse>(signUpResponseParams);
+
+  useEffect(() => {
+    if (isSuccess) {
+      navigate(ClientRoutes.SignIn);
+    }
+  }, [isSuccess]);
 
   const onSubmit = (params: IAuthParams) => {
     signUp(params);

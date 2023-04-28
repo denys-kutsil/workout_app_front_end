@@ -1,9 +1,7 @@
-import { IUserResponse } from '@/types';
-
-export interface IAuthResponse {
+export interface IAuthResponse extends IResponseWithMessage {
   token: string;
 }
 
-export interface ISignInResponse extends IAuthResponse {
-  user: IUserResponse;
+export interface IResponseWithMessage {
+  message: string;
 }

@@ -1,4 +1,5 @@
 import { TrackerStatus } from '@/constants';
+import { IWorkoutResponse } from '@/types';
 
 export const getTrackerStatus = (status: TrackerStatus) => ({
   isPlaying: status === TrackerStatus.Playing,
@@ -16,3 +17,8 @@ export const videoConfig = {
     },
   },
 };
+
+export const getWorkoutExercises = (workout?: IWorkoutResponse) =>
+  workout?.data?.questions
+    ?.map(({ exercises }) => exercises)
+    ?.reduce((prev, next) => [...prev, ...next]);
