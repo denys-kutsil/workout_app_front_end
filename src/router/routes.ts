@@ -37,7 +37,7 @@ const routes: IRouterParams[] = [
   {
     component: AuthView,
     layout: EmptyLayout,
-    path: ClientRoutes.SignIn,
+    path: ClientRoutes.SignUp,
     isPrivate: false,
   },
 ];

@@ -1,11 +1,11 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-import { ApiRoutes } from '@/constants';
+import { ApiRoutes, HttpMethods } from '@/constants';
 import { setAccessTokenToHeaders } from '@/helpers';
-import type { IAuthParams, IWorkoutResponse, IUserResponse } from '@/types';
+import type { IAuthParams, IWorkoutResponse, IUserResponse, IAuthResponse } from '@/types';
 import { envUtil } from '@/utils';
 
-const { api, api_token } = envUtil.getEnv();
+const { api } = envUtil.getEnv();
 
 export const authApi = createApi({
   reducerPath: 'authApi',
@@ -15,16 +15,18 @@ export const authApi = createApi({
   }),
   tagTypes: ['Workouts'],
   endpoints: (builder) => ({
-    signIn: builder.mutation<IWorkoutResponse, IAuthParams>({
-      query: () => ({
+    signIn: builder.mutation<IAuthResponse, IAuthParams>({
+      query: (body) => ({
         url: ApiRoutes.SignIn,
-        params: { api_token },
+        body,
+        method: HttpMethods.POST,
       }),
     }),
     signUp: builder.mutation<IWorkoutResponse, IAuthParams>({
-      query: (params) => ({
+      query: (body) => ({
         url: ApiRoutes.SignUp,
-        params,
+        body,
+        method: HttpMethods.POST,
       }),
     }),
     getActiveUser: builder.mutation<IUserResponse, void>({
