@@ -1,8 +1,10 @@
 import { useSignUpMutation } from '@/apis/auth';
-import { IAuthParams } from '@/types';
+import { useToastMessageRequest } from '@/hooks';
+import type { IAuthParams } from '@/types';
 
 const useEmailSignUpForm = () => {
-  const [signUp] = useSignUpMutation();
+  const [signUp, signUpResponseParams] = useSignUpMutation();
+  useToastMessageRequest(signUpResponseParams);
 
   const onSubmit = (params: IAuthParams) => {
     signUp(params);
