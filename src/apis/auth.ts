@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 import { ApiRoutes, HttpMethods } from '@/constants';
 import { setAccessTokenToHeaders } from '@/helpers';
-import type { IAuthParams, IWorkoutResponse, IUserResponse, IAuthResponse } from '@/types';
+import type { IAuthParams, IUserResponse, IAuthResponse } from '@/types';
 import { envUtil } from '@/utils';
 
 const { api } = envUtil.getEnv();
@@ -22,7 +22,7 @@ export const authApi = createApi({
         method: HttpMethods.POST,
       }),
     }),
-    signUp: builder.mutation<IWorkoutResponse, IAuthParams>({
+    signUp: builder.mutation<IAuthResponse, IAuthParams>({
       query: (body) => ({
         url: ApiRoutes.SignUp,
         body,

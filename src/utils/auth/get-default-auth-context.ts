@@ -7,7 +7,7 @@ const getDefaultAuthContext = (): IAuthContext => ({
   accessToken: getLocalStorageItem('token') ?? null,
   isLoading: true,
   user: null,
-  setAccessToken: function (access_token) {
+  setAccessToken: (access_token) => {
     setLocalStorageItem('token', access_token);
   },
   isAuthTokenExpired: function () {

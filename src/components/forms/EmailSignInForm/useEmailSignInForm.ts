@@ -13,11 +13,8 @@ const useEmailSignInForm = () => {
   const authContext = useAuthContext();
   const [signIn, signInResponseParams] = useSignInMutation();
   const { data, isSuccess } = signInResponseParams;
-  useToastMessageRequest(signInResponseParams);
 
-  const onSubmit = (params: IAuthParams) => {
-    signIn(params);
-  };
+  useToastMessageRequest(signInResponseParams);
 
   useEffect(() => {
     if (data && isSuccess) {
@@ -26,6 +23,10 @@ const useEmailSignInForm = () => {
       navigation(ClientRoutes.Workout);
     }
   }, [data, isSuccess]);
+
+  const onSubmit = (params: IAuthParams) => {
+    signIn(params);
+  };
 
   return { onSubmit };
 };

@@ -1,4 +1,4 @@
-import { IQuestionsResponse } from '@/types';
+import type { IQuestionsResponse } from '@/types';
 
 export interface IWorkoutResponse {
   data: {

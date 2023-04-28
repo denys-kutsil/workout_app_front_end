@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
+import { ApiRoutes } from '@/constants';
 import { setAccessTokenToHeaders } from '@/helpers';
 import type { IWorkoutResponse } from '@/types';
 import { envUtil } from '@/utils';
@@ -16,7 +17,7 @@ export const workoutsApi = createApi({
   endpoints: (builder) => ({
     getWorkoutsData: builder.query<IWorkoutResponse, void>({
       query: () => ({
-        url: 'api/quizzes/workouts',
+        url: ApiRoutes.GetWorkoutsData,
         params: { api_token },
       }),
     }),

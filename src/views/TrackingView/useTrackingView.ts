@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 
-import { getTrackerStatus, splitStrToArrayByTitle } from './constants';
+import { getTrackerStatus, splitStrToArrayByTitle, getWorkoutExercises } from './constants';
 
 import { useGetWorkoutsDataQuery } from '@/apis/workouts';
 import { ClientRoutes, theme, TrackerStatus } from '@/constants';
@@ -20,13 +20,7 @@ const useTrackingView = () => {
   const [allTime, setAllTime] = useState(5);
   const [activeIndex, setActiveIndex] = useState(0);
 
-  const exercises = useMemo(
-    () =>
-      workout?.data?.questions
-        ?.map(({ exercises }) => exercises)
-        ?.reduce((prev, next) => [...prev, ...next]),
-    [workout],
-  );
+  const exercises = useMemo(() => getWorkoutExercises(workout), [workout]);
   const active = exercises?.[activeIndex];
 
   const description = useMemo(
@@ -37,6 +31,12 @@ const useTrackingView = () => {
   const statusToObj = useMemo(() => getTrackerStatus(trackerStatus), [trackerStatus]);
 
   const { isPlaying, isPaused, isPreparation } = statusToObj;
+
+  const percentage = (activeDuration * 100) / allTime;
+  const activeColor = isPlaying ? theme.palette.warning.main : theme.palette.success.main;
+  const title = isPlaying ? active?.title : 'Get Ready';
+  const switchNextVisible = activeIndex !== (exercises?.length ?? 0) - 1;
+  const switchPrevVisible = activeIndex !== 0;
 
   const finishTracking = () => {
     clearActiveInterval();
@@ -100,12 +100,6 @@ const useTrackingView = () => {
   const togglePauseStatus = () => {
     setTrackerStatus(isPaused ? TrackerStatus.Playing : TrackerStatus.Paused);
   };
-
-  const percentage = (activeDuration * 100) / allTime;
-  const activeColor = isPlaying ? theme.palette.warning.main : theme.palette.success.main;
-  const title = isPlaying ? active?.title : 'Get Ready';
-  const switchNextVisible = activeIndex !== (exercises?.length ?? 0) - 1;
-  const switchPrevVisible = activeIndex !== 0;
 
   return {
     description,
