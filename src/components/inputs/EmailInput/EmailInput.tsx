@@ -4,6 +4,7 @@ import { Email } from '@mui/icons-material';
 import { InputAdornment } from '@mui/material';
 
 import styles from './styles';
+
 import type { IEmailInputProps } from './types';
 
 import { TextInput } from '@/components';

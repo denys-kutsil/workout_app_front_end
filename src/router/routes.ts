@@ -1,6 +1,7 @@
+import type { IRouterParams } from '@/router/types';
+
 import { ClientRoutes } from '@/constants';
 import { EmptyLayout, MainLayout } from '@/layouts';
-import type { IRouterParams } from '@/router/types';
 import { AuthView, CompleteView, TrackingView, WorkoutView, GoogleAuthView } from '@/views';
 
 const routes: IRouterParams[] = [
