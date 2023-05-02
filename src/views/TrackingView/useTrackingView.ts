@@ -1,31 +1,30 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
-import { getTrackerStatus, splitStrToArrayByTitle, getWorkoutExercises } from './constants';
+import { getTrackerStatus, splitStrToArrayByTitle } from './constants';
 
-import { useGetWorkoutsDataQuery } from '@/apis/workouts';
+import { useGetExerciseByIdQuery } from '@/apis/exercises';
 import { ClientRoutes, theme, TrackerStatus } from '@/constants';
 import { useActions } from '@/hooks';
 import { statusActions } from '@/redux/status';
 
 const useTrackingView = () => {
+  const { id } = useParams();
   const navigate = useNavigate();
-  const interval = useRef<NodeJS.Timeout>();
+  const interval = useRef<NodeJS.Timeout | null>(null);
   const { setTotalDuration } = useActions(statusActions);
-  const { data: workout } = useGetWorkoutsDataQuery();
+  const { data } = useGetExerciseByIdQuery(id as string, { skip: !id });
+
+  const exercise = data?.exercise;
 
   const [trackerStatus, setTrackerStatus] = useState<TrackerStatus>(TrackerStatus.Preparation);
   const [activeDuration, setActiveDuration] = useState(5);
   const [allTime, setAllTime] = useState(5);
-  const [activeIndex, setActiveIndex] = useState(0);
-
-  const exercises = useMemo(() => getWorkoutExercises(workout), [workout]);
-  const active = exercises?.[activeIndex];
 
   const description = useMemo(
-    () => splitStrToArrayByTitle(active?.description ?? ''),
-    [active?.description],
+    () => splitStrToArrayByTitle(exercise?.description ?? ''),
+    [exercise?.description],
   );
 
   const statusToObj = useMemo(() => getTrackerStatus(trackerStatus), [trackerStatus]);
@@ -34,17 +33,17 @@ const useTrackingView = () => {
 
   const percentage = (activeDuration * 100) / allTime;
   const activeColor = isPlaying ? theme.palette.warning.main : theme.palette.success.main;
-  const title = isPlaying ? active?.title : 'Get Ready';
-  const switchNextVisible = activeIndex !== (exercises?.length ?? 0) - 1;
-  const switchPrevVisible = activeIndex !== 0;
+  const title = isPlaying ? exercise?.title : 'Get Ready';
+  const switchNextVisible = exercise?.nextExternalId;
+  const switchPrevVisible = exercise?.prevExternalId;
 
   const finishTracking = () => {
     clearActiveInterval();
     if (isPreparation) {
       setTrackerStatus(TrackerStatus.Playing);
     } else {
-      setTotalDuration(active?.duration ?? 0);
-      if (activeIndex === (exercises?.length ?? 0) - 1) {
+      setTotalDuration(exercise?.duration ?? 0);
+      if (!exercise?.nextExternalId) {
         navigate(ClientRoutes.Complete);
       }
       changeExercise(true)();
@@ -54,8 +53,9 @@ const useTrackingView = () => {
   const changeExercise = (next: boolean) => () => {
     clearActiveInterval();
     setTotalDuration(allTime - activeDuration);
-    setActiveIndex((prev) => (next ? prev + 1 : prev - 1));
     setTrackerStatus(TrackerStatus.Preparation);
+    const id = next ? exercise?.nextExternalId : exercise?.prevExternalId;
+    navigate(next && !id ? ClientRoutes.Complete : `${ClientRoutes.Tracking}/${id}`);
   };
 
   const onLeaveButtonClick = () => {
@@ -66,7 +66,7 @@ const useTrackingView = () => {
   const updateDuration = (init = false) => {
     setActiveDuration((duration: number) => {
       if (init) {
-        return isPreparation ? 5 : duration ? duration : active?.duration ?? 0;
+        return isPreparation ? 5 : duration ? duration : exercise?.duration ?? 0;
       }
       if (duration - 1 <= 0) finishTracking();
       return duration - 1;
@@ -78,8 +78,7 @@ const useTrackingView = () => {
       clearActiveInterval();
       return;
     }
-
-    setAllTime(isPlaying ? active?.duration ?? 20 : 5);
+    setAllTime(isPlaying ? exercise?.duration ?? 20 : 5);
 
     updateDuration(true);
 
@@ -89,12 +88,17 @@ const useTrackingView = () => {
   };
 
   useEffect(() => {
-    if (!exercises?.length) return;
-    startTracking();
-  }, [trackerStatus, active, exercises?.length]);
+    if (exercise) {
+      startTracking();
+    }
+    return () => {
+      clearActiveInterval();
+    };
+  }, [trackerStatus, exercise]);
 
   const clearActiveInterval = () => {
     clearInterval(interval.current as NodeJS.Timeout);
+    interval.current = null;
   };
 
   const togglePauseStatus = () => {
@@ -112,7 +116,7 @@ const useTrackingView = () => {
     percentage,
     activeDuration,
     activeColor,
-    active,
+    exercise,
     statusToObj,
     trackerStatus,
     changeExercise,

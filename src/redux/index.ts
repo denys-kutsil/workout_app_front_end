@@ -1,6 +1,6 @@
 import { combineReducers, compose, configureStore } from '@reduxjs/toolkit';
 
-import { workoutsApi, authApi } from '@/apis';
+import { exercisesApi, authApi } from '@/apis';
 import { statusReducer } from '@/redux/status';
 import type { IStatusStateType } from '@/redux/status';
 
@@ -11,7 +11,7 @@ declare global {
 }
 
 const rootReducer = combineReducers({
-  [workoutsApi.reducerPath]: workoutsApi.reducer,
+  [exercisesApi.reducerPath]: exercisesApi.reducer,
   [authApi.reducerPath]: authApi.reducer,
   status: statusReducer,
 });
@@ -19,7 +19,7 @@ const rootReducer = combineReducers({
 const store = configureStore({
   reducer: rootReducer,
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({}).concat([workoutsApi.middleware, authApi.middleware]),
+    getDefaultMiddleware({}).concat([exercisesApi.middleware, authApi.middleware]),
 });
 
 // Infer the `RootState` and `AppDispatch` types from the store itself

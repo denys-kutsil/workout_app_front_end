@@ -25,7 +25,7 @@ const TrackingView = () => {
     percentage,
     activeDuration,
     activeColor,
-    active,
+    exercise,
     changeExercise,
     togglePauseStatus,
     onLeaveButtonClick,
@@ -68,9 +68,9 @@ const TrackingView = () => {
           <PlayNextIcon sx={styles.arrowIcon} />
         </Button>
       </Box>
-      {isPreparation && active ? (
+      {isPreparation && exercise ? (
         <Box sx={styles.description}>
-          <img src={active.photo} style={styles.imagePreview} alt="photo" />
+          <img src={exercise.photo} style={styles.imagePreview} alt="photo" />
           <Box component="ol" sx={styles.descriptionContainer}>
             <Typography variant="h4">Steps: </Typography>
             {description.map((item, idx) => (
@@ -84,7 +84,7 @@ const TrackingView = () => {
         <>
           <Box sx={styles.video}>
             <ReactPlayer
-              url={active?.video ?? ''}
+              url={exercise?.video ?? ''}
               playing={isPlaying}
               config={videoConfig}
               width="100%"

@@ -8,7 +8,7 @@ import useWorkoutView from './useWorkoutView';
 import { ArrowIcon } from '@/components';
 
 const WorkoutView = () => {
-  const { seconds, minutes, questions, goBack, startWorkout } = useWorkoutView();
+  const { seconds, minutes, categories, goBack, startWorkout } = useWorkoutView();
 
   return (
     <Box>
@@ -24,14 +24,14 @@ const WorkoutView = () => {
         </Typography>
       </Box>
       <Box sx={styles.categories}>
-        {questions?.map(({ title, exercises }, idx) => (
+        {categories?.map(([title, exercises], idx) => (
           <Box key={idx} sx={styles.categoryItem}>
             <Typography mb={2} variant="h5">
               {title}
             </Typography>
             <>
-              {exercises.map(({ title, photo, duration, id }) => (
-                <Box sx={styles.exercise} key={id}>
+              {exercises?.map(({ title, photo, duration, externalId }) => (
+                <Box sx={styles.exercise} key={externalId}>
                   <img src={photo} alt="photo" height={64} width={64} />
                   <Box sx={styles.workoutItem}>
                     <Typography variant="h6">{title}</Typography>
