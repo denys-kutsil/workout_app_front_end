@@ -19,7 +19,7 @@ const routes: IRouterParams[] = [
   {
     component: TrackingView,
     layout: EmptyLayout,
-    path: ClientRoutes.Tracking,
+    path: ClientRoutes.TrackingById,
     isPrivate: false,
   },
   {

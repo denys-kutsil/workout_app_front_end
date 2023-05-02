@@ -3,5 +3,5 @@ export enum ApiRoutes {
   SignIn = 'sign-in',
   SignUp = 'sign-up',
   GetActive = 'get-active',
-  GetWorkoutsData = 'api/quizzes/workouts',
+  GetExercises = 'exercises',
 }
