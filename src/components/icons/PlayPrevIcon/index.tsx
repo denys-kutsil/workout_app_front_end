@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { SvgIcon } from '@mui/material';
+
 import type { SvgIconProps } from '@mui/material';
 
 import styles from '@/components/icons/styles';

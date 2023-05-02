@@ -1,7 +1,8 @@
 import jwtDecode from 'jwt-decode';
 
-import { getLocalStorageItem, removeLocalStorageItem, setLocalStorageItem } from '@/helpers';
 import type { IAuthContext, IDecodedToken } from '@/types';
+
+import { getLocalStorageItem, removeLocalStorageItem, setLocalStorageItem } from '@/helpers';
 
 const getDefaultAuthContext = (): IAuthContext => ({
   accessToken: getLocalStorageItem('token') ?? null,

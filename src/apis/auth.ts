@@ -1,8 +1,9 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
+import type { IAuthParams, IUserResponse, IAuthResponse } from '@/types';
+
 import { ApiRoutes, HttpMethods } from '@/constants';
 import { setAccessTokenToHeaders } from '@/helpers';
-import type { IAuthParams, IUserResponse, IAuthResponse } from '@/types';
 import { envUtil } from '@/utils';
 
 const { api } = envUtil.getEnv();

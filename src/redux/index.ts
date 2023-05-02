@@ -1,8 +1,9 @@
 import { combineReducers, compose, configureStore } from '@reduxjs/toolkit';
 
+import type { IStatusStateType } from '@/redux/status';
+
 import { exercisesApi, authApi } from '@/apis';
 import { statusReducer } from '@/redux/status';
-import type { IStatusStateType } from '@/redux/status';
 
 declare global {
   interface Window {
