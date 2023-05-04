@@ -2,12 +2,12 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 
 import { useNavigate, useParams } from 'react-router-dom';
 
-import { getTrackerStatus, splitStrToArrayByTitle } from './constants';
-
 import { useGetExerciseByIdQuery } from '@/apis/exercises';
 import { ClientRoutes, theme, TrackerStatus } from '@/constants';
+import { getTrackerStatus } from '@/helpers';
 import { useActions } from '@/hooks';
 import { statusActions } from '@/redux/status';
+import { splitStrToArrayByTitle } from '@/utils';
 
 const useTrackingView = () => {
   const { id } = useParams();

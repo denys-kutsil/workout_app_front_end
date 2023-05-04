@@ -1,6 +1,6 @@
 import type { IEnv } from './env.type';
 
-const mapEnv = () => {
+export const mapEnv = () => {
   const parsed: IEnv = {
     api: process.env.REACT_APP_API_BACKEND || '',
   };

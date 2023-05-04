@@ -2,11 +2,12 @@ import { useEffect } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 
+import type { IAuthParams } from '@/types';
+
 import { useSignInMutation } from '@/apis/auth';
 import { ClientRoutes } from '@/constants';
 import { useAuthContext } from '@/context';
 import { useToastMessageRequest } from '@/hooks';
-import type { IAuthParams } from '@/types';
 
 const useEmailSignInForm = () => {
   const navigation = useNavigate();

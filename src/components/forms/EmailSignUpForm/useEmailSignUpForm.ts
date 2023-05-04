@@ -2,10 +2,11 @@ import { useEffect } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 
+import type { IAuthParams, IAuthResponse } from '@/types';
+
 import { useSignUpMutation } from '@/apis/auth';
 import { ClientRoutes } from '@/constants';
 import { useToastMessageRequest } from '@/hooks';
-import type { IAuthParams, IAuthResponse } from '@/types';
 
 const useEmailSignUpForm = () => {
   const navigate = useNavigate();

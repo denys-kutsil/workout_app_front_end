@@ -4,7 +4,7 @@ import type { IAuthContext, IDecodedToken } from '@/types';
 
 import { getLocalStorageItem, removeLocalStorageItem, setLocalStorageItem } from '@/helpers';
 
-const getDefaultAuthContext = (): IAuthContext => ({
+export const getDefaultAuthContext = (): IAuthContext => ({
   accessToken: getLocalStorageItem('token') ?? null,
   isLoading: true,
   user: null,
@@ -29,5 +29,3 @@ const getDefaultAuthContext = (): IAuthContext => ({
     this.user = null;
   },
 });
-
-export default getDefaultAuthContext;
