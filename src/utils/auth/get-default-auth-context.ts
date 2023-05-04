@@ -14,8 +14,7 @@ export const getDefaultAuthContext = (): IAuthContext => ({
   isAuthTokenExpired: function () {
     try {
       const decodedToken = jwtDecode<IDecodedToken>(this.accessToken as string);
-      const currentTime = Date.now() / 1000;
-      return decodedToken.exp < currentTime;
+      return decodedToken.exp < Date.now() / 1000;
     } catch (error) {
       return true;
     }
