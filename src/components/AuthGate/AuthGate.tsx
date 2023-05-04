@@ -10,7 +10,7 @@ import { ClientRoutes } from '@/constants';
 import { useAuthContext } from '@/context';
 
 interface IAuthGateProps {
-  children: ReactNode;
+  children?: ReactNode;
   isPrivate: boolean;
 }
 

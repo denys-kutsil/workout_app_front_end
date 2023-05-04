@@ -33,4 +33,19 @@ describe('authContext', () => {
     expect(authContext.accessToken).toBe(null);
     expect(authContext.user).toBe(null);
   });
+
+  it('should return true when token is expired', () => {
+    const authContext = getDefaultAuthContext();
+    authContext.accessToken =
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyLCJleHAiOjE1MTYyMzkwMjJ9.TJVA95OrM7E2cBab30RMHrHDcEfxjoYZgeFONFh7HgQ'; // expired token
+    const result = authContext.isAuthTokenExpired();
+    expect(result).toEqual(true);
+  });
+
+  it('should return true when token is not valid', () => {
+    const authContext = getDefaultAuthContext();
+    authContext.accessToken = 'invalidToken';
+    const result = authContext.isAuthTokenExpired();
+    expect(result).toEqual(true);
+  });
 });

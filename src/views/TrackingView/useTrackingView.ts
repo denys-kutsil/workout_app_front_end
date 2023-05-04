@@ -87,15 +87,6 @@ const useTrackingView = () => {
     }, 1000);
   };
 
-  useEffect(() => {
-    if (exercise) {
-      startTracking();
-    }
-    return () => {
-      clearActiveInterval();
-    };
-  }, [trackerStatus, exercise]);
-
   const clearActiveInterval = () => {
     clearInterval(interval.current as NodeJS.Timeout);
     interval.current = null;
@@ -104,6 +95,15 @@ const useTrackingView = () => {
   const togglePauseStatus = () => {
     setTrackerStatus(isPaused ? TrackerStatus.Playing : TrackerStatus.Paused);
   };
+
+  useEffect(() => {
+    if (exercise) {
+      startTracking();
+    }
+    return () => {
+      clearActiveInterval();
+    };
+  }, [trackerStatus, exercise]);
 
   return {
     description,
