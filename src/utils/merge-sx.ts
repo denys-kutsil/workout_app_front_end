@@ -1,7 +1,7 @@
 import type { SxProps } from '@mui/material';
 import type { SystemStyleObject } from '@mui/system';
 
-const mergeSx = <Theme extends object = {}>(
+export const mergeSx = <Theme extends object = {}>(
   ...args: (SxProps<Theme> | undefined)[]
 ): Array<boolean | SystemStyleObject<Theme> | ((theme: Theme) => SystemStyleObject<Theme>)> => {
   return args.reduce<
@@ -14,5 +14,3 @@ const mergeSx = <Theme extends object = {}>(
     return Array.isArray(param) ? [...acc, ...param] : [...acc, param];
   }, []);
 };
-
-export default mergeSx;

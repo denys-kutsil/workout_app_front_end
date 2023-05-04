@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 
-import { useGetActiveUserMutation } from '@/apis/auth';
 import type { IAuthContext } from '@/types';
+
+import { useGetActiveUserMutation } from '@/apis/auth';
 import { getDefaultAuthContext } from '@/utils';
 
 export const useAuthProvider = () => {

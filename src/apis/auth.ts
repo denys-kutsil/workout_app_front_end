@@ -8,6 +8,8 @@ import { envUtil } from '@/utils';
 
 const { api } = envUtil.getEnv();
 
+console.log(api);
+
 export const authApi = createApi({
   reducerPath: 'authApi',
   baseQuery: fetchBaseQuery({
