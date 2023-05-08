@@ -18,7 +18,7 @@ describe('authContext', () => {
 
   it('should set the active user', () => {
     const authContext = getDefaultAuthContext();
-    const user = { picture: '...', email: 'test@gmail.com' };
+    const user = { picture: '...', email: 'test@gmail.com', _id: '12345' };
 
     authContext.setActiveUser(user);
 
