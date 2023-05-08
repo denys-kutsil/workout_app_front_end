@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 
 import { useNavigate, useParams } from 'react-router-dom';
 
-import { useGetActiveUserMutation } from '@/apis/auth';
+import { useGetActiveUserMutation } from '@/apis/users';
 import { ClientRoutes } from '@/constants';
 import { useAuthContext } from '@/context';
 

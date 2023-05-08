@@ -1,28 +1,36 @@
 import { useEffect, useState } from 'react';
 
-import type { IAuthContext } from '@/types';
+import type { IUserResponse } from '@/types';
 
-import { useGetActiveUserMutation } from '@/apis/auth';
+import { useGetActiveUserMutation } from '@/apis/users';
 import { getDefaultAuthContext } from '@/utils';
 
 export const useAuthProvider = () => {
   const [getActiveUser, { data: user, isSuccess }] = useGetActiveUserMutation();
-  const [authContextValue, setNewAuthContextValue] = useState<IAuthContext>(
-    getDefaultAuthContext(),
-  );
+  const [authContext, setAuthContext] = useState(getDefaultAuthContext());
 
   useEffect(() => {
-    const isExpired = authContextValue.isAuthTokenExpired();
-    if (!isExpired) {
+    const isExpired = authContext.isAuthTokenExpired();
+    if (isExpired) {
+      updateAuthContext({ isLoading: false });
+    } else {
       getActiveUser();
     }
   }, []);
 
   useEffect(() => {
     if (isSuccess && user) {
-      setNewAuthContextValue({ ...authContextValue, user });
+      setActiveUser(user);
     }
   }, [user, isSuccess]);
 
-  return authContextValue;
+  const updateAuthContext = (params: Object) => {
+    setAuthContext({ ...authContext, ...params });
+  };
+
+  const setActiveUser = (newUser: IUserResponse) => {
+    updateAuthContext({ user: newUser, isLoading: false });
+  };
+
+  return { ...authContext, setActiveUser };
 };

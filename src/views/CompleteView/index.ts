@@ -1,1 +1,1 @@
-export { default as CompleteView } from './CompleteView';
+export { default } from './CompleteView';

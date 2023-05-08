@@ -1,1 +1,1 @@
-export { default as TrackingView } from './TrackingView';
+export { default } from './TrackingView';

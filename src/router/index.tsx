@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
 
+import { CircularProgress } from '@mui/material';
 import { Routes, Route } from 'react-router-dom';
 
 import routes from './routes';
@@ -13,7 +14,9 @@ const AppRouter: FC = () => (
         element={
           <AuthGate isPrivate={isPrivate}>
             <Layout {...layoutProps}>
-              <Component />
+              <React.Suspense fallback={<CircularProgress />}>
+                <Component />
+              </React.Suspense>
             </Layout>
           </AuthGate>
         }
