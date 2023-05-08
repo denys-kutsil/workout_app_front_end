@@ -1,1 +1,1 @@
-export { default as GoogleAuthView } from './GoogleAuthView';
+export { default } from './GoogleAuthView';

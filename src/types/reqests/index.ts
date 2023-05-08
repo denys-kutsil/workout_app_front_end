@@ -1,4 +1,2 @@
-export interface IAuthParams {
-  email: string;
-  password: string;
-}
+export * from './auth';
+export * from './user';

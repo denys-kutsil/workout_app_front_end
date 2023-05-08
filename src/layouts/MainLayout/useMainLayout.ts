@@ -22,7 +22,7 @@ export const useMainLayout = () => {
   };
 
   const onProfileClick = () => {
-    navigate(ClientRoutes.SignIn);
+    navigate(user ? ClientRoutes.Profile : ClientRoutes.SignIn);
   };
 
   const onLogoutClick = () => {

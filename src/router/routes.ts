@@ -1,8 +1,16 @@
+import { lazy } from 'react';
+
 import type { IRouterParams } from '@/router/types';
 
 import { ClientRoutes } from '@/constants';
 import { EmptyLayout, MainLayout } from '@/layouts';
-import { AuthView, CompleteView, TrackingView, WorkoutView, GoogleAuthView } from '@/views';
+
+const ProfileView = lazy(() => import('@/views/ProfileView'));
+const GoogleAuthView = lazy(() => import('@/views/GoogleAuthView'));
+const WorkoutView = lazy(() => import('@/views/WorkoutView'));
+const TrackingView = lazy(() => import('@/views/TrackingView'));
+const AuthView = lazy(() => import('@/views/AuthView'));
+const CompleteView = lazy(() => import('@/views/CompleteView'));
 
 const routes: IRouterParams[] = [
   {
@@ -10,6 +18,12 @@ const routes: IRouterParams[] = [
     layout: EmptyLayout,
     path: ClientRoutes.GoogleAuth,
     isPrivate: false,
+  },
+  {
+    component: ProfileView,
+    layout: MainLayout,
+    path: ClientRoutes.Profile,
+    isPrivate: true,
   },
   {
     component: WorkoutView,
