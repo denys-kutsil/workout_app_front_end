@@ -1,7 +1,8 @@
 import type { FC } from 'react';
 
-import { ClientRoutes } from '@/constants';
 import type { ILayoutProps } from '@/types';
+
+import { ClientRoutes } from '@/constants';
 
 export interface IRouterParams {
   component: FC;
