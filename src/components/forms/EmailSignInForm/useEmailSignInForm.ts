@@ -6,24 +6,22 @@ import type { IAuthParams } from '@/types';
 
 import { useSignInMutation } from '@/apis/auth';
 import { ClientRoutes } from '@/constants';
-import { useAuthContext } from '@/context';
-import { useToastMessageRequest } from '@/hooks';
+import { useSetAuthTokens, useToastMessageRequest } from '@/hooks';
 
 const useEmailSignInForm = () => {
   const navigation = useNavigate();
-  const authContext = useAuthContext();
   const [signIn, signInResponseParams] = useSignInMutation();
-  const { data, isSuccess } = signInResponseParams;
+  const { data: tokens, isSuccess } = signInResponseParams;
+  const setAuthTokens = useSetAuthTokens();
 
   useToastMessageRequest(signInResponseParams);
 
   useEffect(() => {
-    if (data && isSuccess) {
-      const { token } = data;
-      authContext.setAccessToken(token);
+    if (tokens && isSuccess) {
+      setAuthTokens(tokens);
       navigation(ClientRoutes.Workout);
     }
-  }, [data, isSuccess]);
+  }, [tokens, isSuccess]);
 
   const onSubmit = (params: IAuthParams) => {
     signIn(params);

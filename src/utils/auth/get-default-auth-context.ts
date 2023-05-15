@@ -1,25 +1,26 @@
 import jwtDecode from 'jwt-decode';
-import { toast } from 'react-toastify';
 
 import type { IAuthContext, IDecodedToken } from '@/types';
 
+import { TokenTypes } from '@/constants';
 import { getLocalStorageItem, removeLocalStorageItem, setLocalStorageItem } from '@/helpers';
 
 export const getDefaultAuthContext = (): IAuthContext => ({
-  accessToken: getLocalStorageItem('token') ?? null,
+  accessToken: getLocalStorageItem(TokenTypes.AccessToken) ?? null,
+  refreshToken: getLocalStorageItem(TokenTypes.RefreshToken) ?? null,
   isLoading: true,
   user: null,
-  setAccessToken: (access_token) => {
-    setLocalStorageItem('token', access_token);
+  setAccessTokens: (token: string) => {
+    setLocalStorageItem(TokenTypes.AccessToken, token);
+  },
+  setRefreshTokens: (token: string) => {
+    setLocalStorageItem(TokenTypes.RefreshToken, token);
   },
   isAuthTokenExpired: function () {
     try {
       const decodedToken = jwtDecode<IDecodedToken>(this.accessToken as string);
-      const isExpired = decodedToken.exp < Date.now() / 1000;
-      if (isExpired) {
-        toast.warn('User auth token is expired!');
-      }
-      return isExpired;
+      const expiresIn = decodedToken.exp - Date.now() / 1000;
+      return expiresIn <= 0;
     } catch (error) {
       return true;
     }
@@ -28,8 +29,10 @@ export const getDefaultAuthContext = (): IAuthContext => ({
     this.user = user;
   },
   logout: function () {
-    removeLocalStorageItem('token');
+    removeLocalStorageItem(TokenTypes.AccessToken);
+    removeLocalStorageItem(TokenTypes.RefreshToken);
     this.accessToken = null;
+    this.refreshToken = null;
     this.user = null;
   },
 });
