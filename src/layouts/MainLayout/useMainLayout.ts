@@ -8,10 +8,11 @@ import { useAuthContext } from '@/context';
 
 export const useMainLayout = () => {
   const navigate = useNavigate();
+
+  const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
   const authContext = useAuthContext();
 
   const user = authContext.user;
-  const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
 
   const handleOpenUserMenu = (event: MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);

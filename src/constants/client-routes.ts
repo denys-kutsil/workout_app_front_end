@@ -6,5 +6,5 @@ export enum ClientRoutes {
   SignIn = '/sign-in',
   Profile = '/profile',
   SignUp = '/sign-up',
-  GoogleAuth = '/google-auth/:token',
+  GoogleAuth = '/google-auth/:accessToken/:refreshToken',
 }

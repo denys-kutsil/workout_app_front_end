@@ -1,51 +1,73 @@
-import { getDefaultAuthContext } from '../auth';
+import { IUserResponse } from '@/types';
+import { getDefaultAuthContext } from '@/utils';
 
-import { removeLocalStorageItem, setLocalStorageItem } from '@/helpers';
-
-jest.mock('@/helpers/localStorageHelpers');
-
-describe('authContext', () => {
-  afterEach(() => {
-    jest.resetAllMocks();
-  });
-  it('should set the access token in local storage', () => {
-    const authContext = getDefaultAuthContext();
-
-    authContext.setAccessToken('access_token');
-
-    expect(setLocalStorageItem).toHaveBeenCalledWith('token', 'access_token');
+describe('getDefaultAuthContext', () => {
+  beforeEach(() => {
+    // Clear localStorage before each test
+    localStorage.clear();
   });
 
-  it('should set the active user', () => {
+  test('should return default auth context with null access and refresh tokens if they do not exist in localStorage', () => {
     const authContext = getDefaultAuthContext();
-    const user = { picture: '...', email: 'test@gmail.com', _id: '12345' };
+    expect(authContext.accessToken).toBeNull();
+    expect(authContext.refreshToken).toBeNull();
+    expect(authContext.isLoading).toBeTruthy();
+    expect(authContext.user).toBeNull();
+  });
 
+  test('should return default auth context with access and refresh tokens from localStorage if they exist', () => {
+    const accessToken = 'abc123';
+    const refreshToken = 'def456';
+    localStorage.setItem('accessToken', accessToken);
+    localStorage.setItem('refreshToken', refreshToken);
+    const authContext = getDefaultAuthContext();
+    expect(authContext.accessToken).toEqual(accessToken);
+    expect(authContext.refreshToken).toEqual(refreshToken);
+    expect(authContext.isLoading).toBeTruthy();
+    expect(authContext.user).toBeNull();
+  });
+
+  test('should set access token in localStorage when setAccessTokens is called', () => {
+    const accessToken = 'abc123';
+    const authContext = getDefaultAuthContext();
+    authContext.setAccessTokens(accessToken);
+    expect(localStorage.getItem('accessToken')).toEqual(accessToken);
+  });
+
+  test('should set refresh token in localStorage when setRefreshTokens is called', () => {
+    const refreshToken = 'def456';
+    const authContext = getDefaultAuthContext();
+    authContext.setRefreshTokens(refreshToken);
+    expect(localStorage.getItem('refreshToken')).toEqual(refreshToken);
+  });
+
+  test('isAuthTokenExpired should return true if accessToken is not a valid JWT', () => {
+    const authContext = getDefaultAuthContext();
+    authContext.accessToken = 'not_a_valid_jwt';
+    expect(authContext.isAuthTokenExpired()).toBeTruthy();
+  });
+
+  test('setActiveUser should set user property of authContext', () => {
+    const authContext = getDefaultAuthContext();
+    const user: IUserResponse = { picture: '...', email: 'test@gmail.com', _id: '...' };
     authContext.setActiveUser(user);
-
-    expect(authContext.user).toBe(user);
+    expect(authContext.user).toEqual(user);
   });
-  it('should logout the user', () => {
-    const authContext = getDefaultAuthContext();
 
+  test('logout should remove access and refresh tokens from localStorage and reset authContext properties', () => {
+    const accessToken = 'abc123';
+    const refreshToken = 'def456';
+    const authContext = getDefaultAuthContext();
+    localStorage.setItem('accessToken', accessToken);
+    localStorage.setItem('refreshToken', refreshToken);
+    authContext.accessToken = accessToken;
+    authContext.refreshToken = refreshToken;
+    authContext.user = { picture: '...', email: 'test@gmail.com', _id: '...' };
     authContext.logout();
-
-    expect(removeLocalStorageItem).toHaveBeenCalledWith('token');
-    expect(authContext.accessToken).toBe(null);
-    expect(authContext.user).toBe(null);
-  });
-
-  it('should return true when token is expired', () => {
-    const authContext = getDefaultAuthContext();
-    authContext.accessToken =
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyLCJleHAiOjE1MTYyMzkwMjJ9.TJVA95OrM7E2cBab30RMHrHDcEfxjoYZgeFONFh7HgQ'; // expired token
-    const result = authContext.isAuthTokenExpired();
-    expect(result).toEqual(true);
-  });
-
-  it('should return true when token is not valid', () => {
-    const authContext = getDefaultAuthContext();
-    authContext.accessToken = 'invalidToken';
-    const result = authContext.isAuthTokenExpired();
-    expect(result).toEqual(true);
+    expect(localStorage.getItem('accessToken')).toBeNull();
+    expect(localStorage.getItem('refreshToken')).toBeNull();
+    expect(authContext.accessToken).toBeNull();
+    expect(authContext.refreshToken).toBeNull();
+    expect(authContext.user).toBeNull();
   });
 });

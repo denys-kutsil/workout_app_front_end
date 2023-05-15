@@ -5,19 +5,23 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useGetActiveUserMutation } from '@/apis/users';
 import { ClientRoutes } from '@/constants';
 import { useAuthContext } from '@/context';
+import { useSetAuthTokens } from '@/hooks';
 
 const GoogleAuthView = () => {
-  const { token } = useParams();
   const navigate = useNavigate();
+  const { accessToken, refreshToken } = useParams();
   const authContext = useAuthContext();
+
   const [getActiveUser, { data: user, isSuccess }] = useGetActiveUserMutation();
 
+  const setAuthTokens = useSetAuthTokens();
+
   useEffect(() => {
-    if (token) {
-      authContext.setAccessToken(token);
+    if (accessToken && refreshToken) {
+      setAuthTokens({ accessToken, refreshToken });
       getActiveUser();
     }
-  }, [token]);
+  }, [accessToken, refreshToken]);
 
   useEffect(() => {
     if (isSuccess && user) {
