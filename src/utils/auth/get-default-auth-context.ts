@@ -1,4 +1,5 @@
 import jwtDecode from 'jwt-decode';
+import { toast } from 'react-toastify';
 
 import type { IAuthContext, IDecodedToken } from '@/types';
 
@@ -14,7 +15,11 @@ export const getDefaultAuthContext = (): IAuthContext => ({
   isAuthTokenExpired: function () {
     try {
       const decodedToken = jwtDecode<IDecodedToken>(this.accessToken as string);
-      return decodedToken.exp < Date.now() / 1000;
+      const isExpired = decodedToken.exp < Date.now() / 1000;
+      if (isExpired) {
+        toast.warn('User auth token is expired!');
+      }
+      return isExpired;
     } catch (error) {
       return true;
     }
