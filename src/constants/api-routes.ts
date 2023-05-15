@@ -4,4 +4,5 @@ export enum ApiRoutes {
   SignUp = 'sign-up',
   GetActive = 'get-active',
   GetExercises = 'exercises',
+  RefreshToken = 'refresh-token',
 }

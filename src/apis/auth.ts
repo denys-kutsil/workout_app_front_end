@@ -1,6 +1,11 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-import type { IAuthParams, IAuthResponse } from '@/types';
+import type {
+  IAccessTokenResponse,
+  IAuthParams,
+  IAuthResponse,
+  IRefreshTokenResponse,
+} from '@/types';
 
 import { ApiRoutes, HttpMethods } from '@/constants';
 import { setAccessTokenToHeaders } from '@/helpers';
@@ -30,7 +35,14 @@ export const authApi = createApi({
         method: HttpMethods.POST,
       }),
     }),
+    refreshAuthToken: builder.mutation<IAccessTokenResponse, IRefreshTokenResponse>({
+      query: (body) => ({
+        url: ApiRoutes.RefreshToken,
+        body,
+        method: HttpMethods.POST,
+      }),
+    }),
   }),
 });
 
-export const { useSignInMutation, useSignUpMutation } = authApi;
+export const { useSignInMutation, useSignUpMutation, useRefreshAuthTokenMutation } = authApi;
