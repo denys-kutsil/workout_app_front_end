@@ -1,3 +1,4 @@
+import { TokenTypes } from '@/constants';
 import { IUserResponse } from '@/types';
 import { getDefaultAuthContext } from '@/utils';
 
@@ -18,8 +19,8 @@ describe('getDefaultAuthContext', () => {
   test('should return default auth context with access and refresh tokens from localStorage if they exist', () => {
     const accessToken = 'abc123';
     const refreshToken = 'def456';
-    localStorage.setItem('accessToken', accessToken);
-    localStorage.setItem('refreshToken', refreshToken);
+    localStorage.setItem(TokenTypes.AccessToken, accessToken);
+    localStorage.setItem(TokenTypes.RefreshToken, refreshToken);
     const authContext = getDefaultAuthContext();
     expect(authContext.accessToken).toEqual(accessToken);
     expect(authContext.refreshToken).toEqual(refreshToken);
@@ -31,14 +32,14 @@ describe('getDefaultAuthContext', () => {
     const accessToken = 'abc123';
     const authContext = getDefaultAuthContext();
     authContext.setAccessTokens(accessToken);
-    expect(localStorage.getItem('accessToken')).toEqual(accessToken);
+    expect(localStorage.getItem(TokenTypes.AccessToken)).toEqual(accessToken);
   });
 
   test('should set refresh token in localStorage when setRefreshTokens is called', () => {
     const refreshToken = 'def456';
     const authContext = getDefaultAuthContext();
     authContext.setRefreshTokens(refreshToken);
-    expect(localStorage.getItem('refreshToken')).toEqual(refreshToken);
+    expect(localStorage.getItem(TokenTypes.RefreshToken)).toEqual(refreshToken);
   });
 
   test('isAuthTokenExpired should return true if accessToken is not a valid JWT', () => {
@@ -64,8 +65,8 @@ describe('getDefaultAuthContext', () => {
     authContext.refreshToken = refreshToken;
     authContext.user = { picture: '...', email: 'test@gmail.com', _id: '...' };
     authContext.logout();
-    expect(localStorage.getItem('accessToken')).toBeNull();
-    expect(localStorage.getItem('refreshToken')).toBeNull();
+    expect(localStorage.getItem(TokenTypes.AccessToken)).toBeNull();
+    expect(localStorage.getItem(TokenTypes.RefreshToken)).toBeNull();
     expect(authContext.accessToken).toBeNull();
     expect(authContext.refreshToken).toBeNull();
     expect(authContext.user).toBeNull();
