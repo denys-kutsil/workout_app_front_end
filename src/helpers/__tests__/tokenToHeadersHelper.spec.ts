@@ -1,9 +1,10 @@
+import { TokenTypes } from '@/constants';
 import { setAccessTokenToHeaders } from '@/helpers';
 
 describe('setAccessTokenToHeaders', () => {
   it('should set the Authorization header with the token from local storage if it exists', () => {
     const headers = new Headers();
-    localStorage.setItem('token', 'test-token');
+    localStorage.setItem(TokenTypes.AccessToken, 'test-token');
 
     const result = setAccessTokenToHeaders(headers);
 
