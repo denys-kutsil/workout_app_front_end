@@ -11,7 +11,6 @@ const useUserForm = () => {
 
   const initialValues: IUserRequest = {
     picture: user?.picture ?? '',
-    id: user?._id ?? null,
   };
 
   useEffect(() => {
