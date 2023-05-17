@@ -22,8 +22,8 @@ export const usersApi = createApi({
       }),
     }),
     updateUser: builder.mutation<IUserResponse, IUserRequest>({
-      query: ({ id, ...body }) => ({
-        url: `/${id}`,
+      query: (body) => ({
+        url: '/',
         method: HttpMethods.PUT,
         body: objToFormData(body),
       }),
